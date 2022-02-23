@@ -363,13 +363,16 @@ ipcMain.handle('accounts:get', () => {
     }
     let dataArray = [];
     Object.keys(data).forEach(a => {
-        let t = data[a];
-        t._name = a, dataArray.push(t)
+        let _temp = data[a];
+        _temp["_name"] = a;
+        dataArray.push(_temp);
     });
-    dataArray.sort((a, t) => t.rank - a.rank);
+    dataArray.sort((a, b) => b.rank - a.rank);
     let sortData = {};
-    dataArray.forEach(a => sortData[a._name] = a, delete sortData[a._name]._name);
-
+    dataArray.forEach(a => {
+        sortData[a["_name"]] = a;
+        delete sortData[a["_name"]]["_name"];
+    });
     return sortData;
 });
 
