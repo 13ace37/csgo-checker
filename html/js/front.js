@@ -1,10 +1,9 @@
 const { equal } = fastEqual;
 
 let version;
-ipcRenderer.invoke("app:version").then(v => {
-  version = v; 
-  //document.title += " " + v;
-});
+ipcRenderer.invoke("app:version").then(v => version = v);
+let isDev;
+ipcRenderer.invoke("app:isDev").then(d => isDev = d);
 
 let account_cache = {};
 let tags_cache = {};
@@ -148,7 +147,7 @@ function formatExpireTime(time) {
 function createBadge(text, color) {
   let newBadge = document.querySelector('#badge-template').content.cloneNode(true);
   let span = newBadge.querySelector('span');
-  span.innerText = text;
+  span.innerHTML = "<tt>" + text + "</tt>";
   span.style.backgroundColor = color;
   span.style.color = getContrastYIQ(color);
   return newBadge;
@@ -833,7 +832,8 @@ document.addEventListener('DOMContentLoaded', () => {
       changeLogModal_div.querySelector('.modal-title').innerText = 'Changelog - ' + version;
     }
     changeLogModal_div.querySelector('.modal-body').innerHTML = md_converter.makeHtml(markdown);
-    changeLogModal.show();
+    if (!isDev)
+      changeLogModal.show();
   });
   
   updateAccounts();

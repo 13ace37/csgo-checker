@@ -350,6 +350,7 @@ ipcMain.handle('encryption:remove', async () => {
 });
 
 ipcMain.handle('app:version', app.getVersion);
+ipcMain.handle('app:isDev', () => isDev);
 
 ipcMain.handle('accounts:get', () => {
     let data = db.JSON();
