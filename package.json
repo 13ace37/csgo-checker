@@ -1,14 +1,14 @@
 {
   "name": "csgo-checker",
-  "version": "1.2.1",
-  "description": "csgo-checker",
+  "version": "10.0.0",
+  "description": "csgo-checker - ace's node edit",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --win",
     "publish": "electron-builder --win --publish always"
   },
-  "author": "dumbasPL",
+  "author": "dumbasPL & 13ace37",
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "csgo-friendcode": "^3.0.3",
@@ -30,23 +30,12 @@
   },
   "build": {
     "appId": "cc.nezu.csgochecker",
-    "productName": "CSGO account checker",
+    "productName": "CSGO Account Checker",
     "win": {
       "artifactName": "CSGO Checker installer.${ext}",
       "target": [
-        "nsis",
-        "portable"
+        "nsis"
       ]
-    },
-    "portable": {
-      "artifactName": "csgo-checker_portable.exe"
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "dumbasPL",
-        "repo": "csgo-checker"
-      }
-    ]
+    }
   }
 }

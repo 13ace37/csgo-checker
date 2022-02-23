@@ -3,7 +3,7 @@ const { equal } = fastEqual;
 let version;
 ipcRenderer.invoke("app:version").then(v => {
   version = v; 
-  document.title += " " + v;
+  //document.title += " " + v;
 });
 
 let account_cache = {};

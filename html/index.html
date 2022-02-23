@@ -1,109 +1,112 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>CS:GO account checker</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/material-icons.css">
-  <link rel="stylesheet" href="css/main.css">
-</head>
-<body >
-  
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-danger ">
-    <div class="container-fluid">
-      <a class="navbar-brand">CS:GO account checker</a>
-      <ul class="navbar-nav me-auto">
-      </ul>
-      <div class="col-4 mb-0 me-3">
-        <input type="search" class="form-control form-control-dark" id="search" placeholder="Search...">
-      </div>
 
-      <div class="text-end">
-        <button type="button" class="btn btn-link text-white" id="export" data-bs-toggle="tooltip" data-bs-placement="bottom" title="export all accounts to user:pass">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>CS:GO Account Checker - ace's nord edit :^)</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nord.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand"><b>CS:GO Account Checker</b> - ace's nord edit :^)</a>
+            <ul class="navbar-nav me-auto">
+            </ul>
+            <div class="col-4 mb-0 me-3">
+                <input type="search" class="form-control form-control-dark" id="search" placeholder="Search...">
+            </div>
+
+            <div class="text-end">
+                <button type="button" class="btn btn-link text-light" id="export" data-bs-toggle="tooltip" data-bs-placement="bottom" title="export all accounts to user:pass">
           <i class="material-icons">file_upload</i>
         </button>
-        <button type="button" class="btn btn-link text-white" id="import" data-bs-toggle="tooltip" data-bs-placement="bottom" title="import accounts from user:pass">
+                <button type="button" class="btn btn-link text-light" id="import" data-bs-toggle="tooltip" data-bs-placement="bottom" title="import accounts from user:pass">
           <i class="material-icons">save_alt</i>
         </button>
-        
-        <button type="button" class="btn btn-link text-white" id="new-account" data-bs-toggle="tooltip" data-bs-placement="bottom" title="add new account">
+
+                <button type="button" class="btn btn-link text-light" id="new-account" data-bs-toggle="tooltip" data-bs-placement="bottom" title="add new account">
           <i class="material-icons">add</i>
         </button>
 
-        <button type="button" class="btn btn-link text-white" id="reloadall" data-bs-toggle="tooltip" data-bs-placement="bottom" title="refresh all">
+                <button type="button" class="btn btn-link text-light" id="reloadall" data-bs-toggle="tooltip" data-bs-placement="bottom" title="refresh all">
           <i class="material-icons">refresh</i>
         </button>
 
-        <button type="button" class="btn btn-link text-white" id="settings" data-bs-toggle="tooltip" data-bs-placement="bottom" title="settings">
+                <button type="button" class="btn btn-link text-light" id="settings" data-bs-toggle="tooltip" data-bs-placement="bottom" title="settings">
           <i class="material-icons">settings</i>
         </button>
-      </div>
+            </div>
 
-    </div>
-  </nav>
-  <main>
+        </div>
+    </nav>
+    <main>
 
-    <table class="table table-dark table-sm my-0" id="main-table">
-      <thead>
-        <tr>
-          <th class="sortable" data-column-name="username" data-sort-dir="none">
-            login
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="sortable" data-column-name="name" data-sort-dir="none">
-            name
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="text-center">
-            tags
-          </th>
-          <th class="sortable" data-column-name="lvl" data-sort-dir="none">
-            lvl
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="sortable text-center" data-column-name="prime" data-sort-dir="none">
-            <img src="img/prime.svg" alt="prime" class="d-inline-block" style="height: 1rem;">
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="sortable text-center" data-column-name="rank" data-sort-dir="none">
-            comp
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="sortable text-center" data-column-name="rank_wg" data-sort-dir="none">
-            wm
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="sortable text-center" data-column-name="rank_dz" data-sort-dir="none">
-            dz
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="sortable text-center" data-column-name="ban" data-sort-dir="none">
-            ban/error
-            <i class="material-icons sort-asc">arrow_drop_up</i>
-            <i class="material-icons sort-desc">arrow_drop_down</i>
-          </th>
-          <th class="text-center">
-            action
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table>
+        <table class="table table-dark table-sm my-0" id="main-table">
+            <thead>
+                <tr>
+                    <th class="sortable" data-column-name="username" data-sort-dir="none">
+                        login
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="sortable" data-column-name="name" data-sort-dir="none">
+                        name
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="text-center">
+                        tags
+                    </th>
+                    <th class="sortable" data-column-name="lvl" data-sort-dir="none">
+                        lvl
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="sortable text-center" data-column-name="prime" data-sort-dir="none">
+                        <img src="img/prime.svg" alt="prime" class="d-inline-block" style="height: 1rem;">
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="sortable text-center" data-column-name="rank" data-sort-dir="none">
+                        comp
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="sortable text-center" data-column-name="rank_wg" data-sort-dir="none">
+                        wm
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="sortable text-center" data-column-name="rank_dz" data-sort-dir="none">
+                        dz
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="sortable text-center" data-column-name="ban" data-sort-dir="none">
+                        ban/error
+                        <i class="material-icons sort-asc">arrow_drop_up</i>
+                        <i class="material-icons sort-desc">arrow_drop_down</i>
+                    </th>
+                    <th class="text-center">
+                        action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
 
-  </main>
+            </tbody>
+        </table>
 
-  <template id="row-template">
+    </main>
+
+    <template id="row-template">
     <tr>
       <td class="login"></td>
       <td class="preloader" colspan="10">
@@ -150,11 +153,11 @@
     </tr>
   </template>
 
-  <template id="badge-template">
+    <template id="badge-template">
     <span class="badge rounded-pill"></span>
   </template>
 
-  <template id="toast-template">
+    <template id="toast-template">
     <div class="toast" role="alert">
       <div class="d-flex">
         <div class="toast-body"></div>
@@ -163,7 +166,7 @@
     </div>
   </template>
 
-  <template id="settings-tags-template">
+    <template id="settings-tags-template">
     <div class="row">
       <div class="col-4 pe-0">
         <input type="text" readonly class="form-control-plaintext">
@@ -176,168 +179,168 @@
       </div>
     </div>
   </template>
-  
-  <div class="position-relative vh-100 pe-none">
-    <div class="toast-container position-absolute bottom-0 start-0 p-3">
-      <!-- toasts will go here -->
-    </div>
-  </div>
 
-  <div class="modal fade" id="confirmDeleteAccount" tabindex="-1" >
-    <div class="modal-dialog modal-dialog-centered">
-      <input type="hidden" name="login">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Delete account?</h5>
+    <div class="position-relative vh-100 pe-none">
+        <div class="toast-container position-absolute bottom-0 start-0 p-3">
+            <!-- toasts will go here -->
         </div>
-        <div class="modal-body">
-          Are you sure you want to delete the account?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger">Delete</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="editAccountModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"></h5>
+    <div class="modal fade" id="confirmDeleteAccount" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <input type="hidden" name="login">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete account?</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the account?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="user-name" class="col-form-label">Username:</label>
-              <input type="text" class="form-control" id="user-name">
-            </div>
-            <div class="mb-3">
-              <label for="user-passwd" class="col-form-label">Password:</label>
-              <div class="input-group showHidePassword">
-                <input type="password" class="form-control" id="user-passwd">
-                <a href="#" class="text-decoration-none text-dark input-group-text"><i class="material-icons">visibility_off</i></a>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="user-secret" class="col-form-label">Steam guard shared secret:</label>
-              <div class="input-group showHidePassword">
-                <input type="password" class="form-control" id="user-secret">
-                <a href="#" class="text-decoration-none text-dark input-group-text"><i class="material-icons">visibility_off</i></a>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="user-tags" class="col-form-label">Tags: <span class="text-muted">Hold Ctrl to select multiple</span></label>
-              <select class="form-select" multiple id="user-tags">
+    </div>
+
+    <div class="modal fade" id="editAccountModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="user-name" class="col-form-label">Username:</label>
+                            <input type="text" class="form-control" id="user-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="user-passwd" class="col-form-label">Password:</label>
+                            <div class="input-group showHidePassword">
+                                <input type="password" class="form-control" id="user-passwd">
+                                <a href="#" class="text-decoration-none text-dark input-group-text"><i class="material-icons">visibility_off</i></a>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="user-secret" class="col-form-label">Steam guard shared secret:</label>
+                            <div class="input-group showHidePassword">
+                                <input type="password" class="form-control" id="user-secret">
+                                <a href="#" class="text-decoration-none text-dark input-group-text"><i class="material-icons">visibility_off</i></a>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="user-tags" class="col-form-label">Tags: <span class="text-muted">Hold Ctrl to select multiple</span></label>
+                            <select class="form-select" multiple id="user-tags">
               </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
             </div>
-          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="steamGuardModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Steam Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="steam-guard" class="col-form-label">Steam Guard for account <span id="steam-guard-username"></span>:</label>
-              <input type="text" class="form-control" id="steam-guard">
+    <div class="modal fade" id="steamGuardModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Steam Guard</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="steam-guard" class="col-form-label">Steam Guard for account <span id="steam-guard-username"></span>:</label>
+                            <input type="text" class="form-control" id="steam-guard">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Send</button>
+                </div>
             </div>
-          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Send</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="settingsModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Settings</h5>
-        </div>
-        <div class="modal-body">
-          <h6>Tags:</h6>
-          <form id="tag-list">
-            <!-- tags go here -->
-          </form>
-          <form class="row mt-4">
-            <div class="col-4 pe-0">
-              <input type="text" class="form-control" id="new-tag" placeholder="new tag name">
+    <div class="modal fade" id="settingsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Tags:</h6>
+                    <form id="tag-list">
+                        <!-- tags go here -->
+                    </form>
+                    <form class="row mt-4">
+                        <div class="col-4 pe-0">
+                            <input type="text" class="form-control" id="new-tag" placeholder="new tag name">
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" id="new-tag-btn">add new</button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <h6>Data:</h6>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-bs-target="#confirmDeleteAll" data-bs-toggle="modal">Delete all accounts</button>
+                    <div id="setup-encryption" class="mt-2">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Setup encryption</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Remove encryption</button>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
             </div>
-            <div class="col">
-              <button type="button" class="btn btn-primary" id="new-tag-btn">add new</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmDeleteAll" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete all accounts?</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete all accounts? <br> This can not be undone!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete-all-btn">Delete</button>
+                </div>
             </div>
-          </form>
-
-          <hr>
-
-          <h6>Data:</h6>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-bs-target="#confirmDeleteAll" data-bs-toggle="modal">Delete all accounts</button>
-          <div id="setup-encryption" class="mt-2">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Setup encryption</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Remove encryption</button>
-          </div>
-
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="confirmDeleteAll" tabindex="-1" >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Delete all accounts?</h5>
+    <div class="modal fade" id="changeLogModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Changelog</h5>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          Are you sure you want to delete all accounts? <br>
-          This can not be undone!
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete-all-btn">Delete</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="changeLogModal" tabindex="-1" >
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Changelog</h5>
-        </div>
-        <div class="modal-body">
-          
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/front.js"></script>
 
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/front.js"></script>
-  
 </body>
+
 </html>
