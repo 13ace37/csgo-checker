@@ -34,11 +34,11 @@ main {
 }
 
 .prime-green {
-    filter: brightness(0) saturate(100%) invert(32%) sepia(100%) saturate(1307%) hue-rotate(93deg) brightness(98%) contrast(105%);
+    filter: brightness(0) invert(84%) sepia(14%) saturate(643%) hue-rotate(49deg) brightness(85%) contrast(88%);
 }
 
 .prime-red {
-    filter: brightness(0) saturate(100%) invert(16%) sepia(42%) saturate(6385%) hue-rotate(355deg) brightness(100%) contrast(100%);
+    filter: brightness(0) invert(52%) sepia(19%) saturate(1272%) hue-rotate(305deg) brightness(84%) contrast(88%);
 }
 
 .rank-image {
