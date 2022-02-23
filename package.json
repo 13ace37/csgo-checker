@@ -29,10 +29,10 @@
     "electron-builder": "^22.13.1"
   },
   "build": {
-    "appId": "cc.nezu.csgochecker",
-    "productName": "CSGO Account Checker",
+    "appId": "ch.xace.csgochecker",
+    "productName": "CSGO Account Checker - Nord Edit",
     "win": {
-      "artifactName": "CSGO Checker installer.${ext}",
+      "artifactName": "CSGOCheckerInstallerV${version}.${ext}",
       "target": [
         "nsis"
       ]
