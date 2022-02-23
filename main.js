@@ -179,7 +179,7 @@ function createWindow() {
         },
         width: 1150,
         height: 625,
-        minWidth: 1100,
+        minWidth: 1150,
         minHeight: 625
     });
     win.removeMenu();
