@@ -1,7 +1,7 @@
 {
   "name": "csgo-checker",
   "version": "1.3.0",
-  "description": "csgo-checker - ace's node edit",
+  "description": "csgo-checker - ace's nord edit",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
