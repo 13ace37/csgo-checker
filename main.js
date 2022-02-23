@@ -19,6 +19,15 @@ const Protos = require('./helpers/protos.js')([{
     ]
 }]);
 
+app.requestSingleInstanceLock() ? (app.on("second-instance", () => {
+	mainWindowCreated ? (win.isMinimized() || win.restore(), win.focus()) : settings.get("encrypted") && (promptWindow.isMinimized() || promptWindow.restore(), promptWindow.focus())
+}), app.on("activate", () => {
+	0 === BrowserWindow.getAllWindows().length && createWindow()
+}), app.whenReady().then(async () => {
+	await openDB(), createWindow()
+})) : app.quit();
+
+
 const IS_PORTABLE = process.env.PORTABLE_EXECUTABLE_DIR != null;
 const USER_DATA = IS_PORTABLE ? path.join(process.env.PORTABLE_EXECUTABLE_DIR, process.env.PORTABLE_EXECUTABLE_APP_FILENAME + '-data') : app.getPath('userData');
 const SETTINGS_PATH = path.join(USER_DATA, 'settings.json');
@@ -60,6 +69,8 @@ function beforeWindowInputHandler(window, event, input) {
     }
 }
 
+let promptWindow;
+
 async function openDB() {
     try {
         if (db) {
@@ -71,7 +82,7 @@ async function openDB() {
             while (true) {
                 let pass = await new Promise((resolve, reject) => {
                     passwordPromptResponse = null;
-                    let promptWindow = new BrowserWindow({
+                    promptWindow = new BrowserWindow({
                         webPreferences: {
                             preload: path.join(__dirname, 'preload.js'),
                             contextIsolation: true,
@@ -199,10 +210,12 @@ function createWindow() {
     mainWindowCreated = true;
 }
 
-app.whenReady().then(async () => {
-    await openDB();
-    createWindow();
-})
+/* Moved due to second-instance patch */
+
+// app.whenReady().then(async () => {
+//     await openDB();
+//     createWindow();
+// })
 
 app.on('window-all-closed', () => {
     if (!mainWindowCreated) {
@@ -213,11 +226,13 @@ app.on('window-all-closed', () => {
     }
 })
 
-app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-    }
-})
+/* Moved due to second-instance patch */
+
+// app.on('activate', () => {
+//     if (BrowserWindow.getAllWindows().length === 0) {
+//         createWindow();
+//     }
+// })
 
 ipcMain.on('encryption:password', (_, password) => passwordPromptResponse = password);
 
