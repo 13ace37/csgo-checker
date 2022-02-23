@@ -1,6 +1,6 @@
 {
   "name": "csgo-checker",
-  "version": "10.0.0",
+  "version": "1.3.0",
   "description": "csgo-checker - ace's node edit",
   "main": "main.js",
   "scripts": {
