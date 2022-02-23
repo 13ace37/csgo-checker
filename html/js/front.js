@@ -400,7 +400,7 @@ function updateRow(row, login, account, force) {
       account.tags.forEach(tag => {
         let color = tags_cache[tag];
         if (!color) {
-          color = '#000000';
+          color = '#ECEFF4';
         }
         let badge = createBadge(tag, color);
         tags.appendChild(badge);
