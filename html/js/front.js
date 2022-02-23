@@ -198,7 +198,7 @@ function showToast(text, color, permanent = false) {
  * @param {String} color tag color
  * @returns {Element} new line
  */
-function createTagEdit(name, color = '#000000') {
+function createTagEdit(name, color = '#ECEFF4') {
   let new_line = document.querySelector('#settings-tags-template').content.cloneNode(true).querySelector('.row');
   new_line.id = 'tag-edit-' + name;
   new_line.querySelector('input[type=text]').value = name;
@@ -396,7 +396,7 @@ function updateRow(row, login, account, force) {
     while (tags.firstChild) {
       tags.firstChild.remove();
     }
-    if (account.tags) {
+    if (account.tags.length > 0) {
       account.tags.forEach(tag => {
         let color = tags_cache[tag];
         if (!color) {
@@ -405,6 +405,9 @@ function updateRow(row, login, account, force) {
         let badge = createBadge(tag, color);
         tags.appendChild(badge);
       });
+    } else {
+      let badge = createBadge(friendCode.encode(account.steamid), "#A3BE8C");
+      tags.appendChild(badge);
     }
     row.querySelector('.level').innerText = account.lvl ?? '?';
     row.querySelector('.prime img').className = account.steamid ? account.prime ? 'prime-green' : 'prime-red' : '';
