@@ -12,22 +12,26 @@
 </head>
 <body>
   <form class="m-4">
-    <div class="text-center text-white">
+    <div class="text-center text-white mb-3">
       <h1>Encryption setup</h1>
     </div>
     <div class="mb-3">
-      <label for="password" class="form-label text-white center">Password</label>
-      <input type="password" class="form-control" id="password" aria-describedby="passwordHelp passwordFeedback" autofocus="autofocus" />
+      <div class="form-floating">
+        <input type="password" class="form-control" id="password" aria-describedby="passwordHelp passwordFeedback" autofocus="autofocus" placeholder="Passord"/>
+        <label for="password">Password</label>
+    </div>
       <div id="passwordHelp" class="form-text text-danger">Make sure you remember this password!</div>
       <div id="passwordFeedback" class="invalid-feedback">Password can't be empty!</div>
     </div>
     <div class="mb-3">
-      <label for="password2" class="form-label text-white center">Repeat password</label>
-      <input type="password" class="form-control" id="password2" aria-describedby="password2Feedback" />
+      <div class="form-floating">
+      <input type="password" class="form-control" id="password2" aria-describedby="password2Feedback" placeholder="Repeat password"/>
+      <label for="password2">Repeat password</label>
+    </div>
       <div id="password2Feedback" class="invalid-feedback">Passwords must match!</div>
     </div>
     <div class="text-center">
-      <button type="submit" class="btn btn-success">Encrypt</button>
+      <button type="submit" class="btn btn-success text-white">Encrypt</button>
     </div>
   </form>
   <script>

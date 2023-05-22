@@ -1,0 +1,150 @@
+/* Custom textarea scrollbar */
+
+@font-face {
+	font-family: Torus;
+	font-weight: 100;
+	src: url(../webfonts/Torus-Thin.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 300;
+	src: url(../webfonts/Torus-Light.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 400;
+	src: url(../webfonts/Torus-Regular.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 600;
+	src: url(../webfonts/Torus-SemiBold.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 700;
+	src: url(../webfonts/Torus-SemiBold.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 800;
+	src: url(../webfonts/Torus-Bold.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 900;
+	src: url(../webfonts/Torus-Heavy.otf);
+}
+
+body {
+	margin-bottom: 56px;
+}
+
+* {
+	font-family: Torus,
+		sans-serif;
+}
+
+::-webkit-scrollbar {
+	width: 0.1em;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgb(216, 222, 233);
+}
+
+.fa-btn-close {
+	text-decoration: none;
+	cursor: pointer;
+	color: var(--red);
+}
+
+.text-justify {
+	margin: 0;
+	text-align: justify;
+}
+
+@-webkit-keyframes animate-logoLoadingAnimation {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes animate-logoLoadingAnimation {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+.logoLoadingAnimation {
+	-webkit-animation: animate-logoLoadingAnimation 1.6s cubic-bezier(0.47, 0, 0.745, 0.715) 1.0s both infinite;
+	animation: animate-logoLoadingAnimation 1.6s cubic-bezier(0.47, 0, 0.745, 0.715) 1.0s both infinite;
+}
+
+.modal-content-glass {
+	background: rgba(59, 66, 82, 0.6);
+	box-shadow: 0 8px 32px 0 rgba(94, 129, 172, 0.37);
+	backdrop-filter: blur(5px);
+	border-radius: 5px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.card-neomorph {
+	border-radius: 10px;
+	background: #3B4252;
+	box-shadow: 5px 5px 23px #2d323e,
+		-5px -5px 23px #495266;
+}
+
+/* Style from prompt fork */
+
+.prompt-container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+    overflow: auto;
+}
+
+.prompt-form {
+    width: 100%;
+    padding-top: .5em;
+}
+
+.prompt-label {
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: .8em;
+    padding: 0 .5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

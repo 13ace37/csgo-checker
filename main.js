@@ -151,13 +151,7 @@ async function openDB() {
 
 // add some defaults
 if (!settings.get('tags')) {
-    settings.set('tags', {
-        'good trust': '#00CC00',
-        'yellow trust': '#ffCC00',
-        'red trust': '#CC0000',
-        'for sale': '#0066FF',
-        'example tag': '#FF3399'
-    });
+    settings.set('tags', {});
 }
 if (typeof settings.get('encrypted') != 'boolean') {
     settings.set('encrypted', false);
