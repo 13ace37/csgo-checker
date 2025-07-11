@@ -1,6 +1,6 @@
 {
 	"name": "csgo-checker",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "csgo-checker - ace's nord edit",
 	"main": "main.js",
 	"scripts": {

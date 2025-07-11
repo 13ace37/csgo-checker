@@ -1,6 +1,10 @@
-# 2.0.0
+# 2.0.1
   - updated to steam-user v5 
   - updated globaloffensive v3
+  - fixed error message not being deleted on refresh of account
+  - steam guard is not saved
+
+# 2.0.0
   - replaced mm rank with premier rank
 
 # 1.2.0
