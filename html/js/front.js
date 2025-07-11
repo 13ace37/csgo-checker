@@ -13,23 +13,27 @@ let encrypted = false;
  * Get correct image name for given rank
  * @param {Number} rank ranking
  * @param {Number} wins number of wins
- * @param {'mm' | 'wg' | 'dz'} type rank type 
+ * @param {'mm' | 'wg' | 'dz' | 'pr'} type rank type 
  * @returns {String}
  */
 function getRankImage(rank, wins, type) {
-  let prefix = 'img/skillgroups/';
-  switch (type) {
-    case 'mm': prefix += 'skillgroup'; break;
-    case 'wg': prefix += 'wingman'; break;
-    case 'dz': prefix += 'dangerzone'; break;
-  }
-  if (rank <= 0) {
-    rank = 0;
-  }
-  if (rank == 0 && wins >= 10) {
-    return prefix + '_expired.svg';
-  }
-  return prefix + rank + '.svg';
+	let prefix = 'img/skillgroups/';
+	switch (type) {
+		case 'mm': prefix += 'skillgroup'; break;
+		case 'wg': prefix += 'wingman'; break;
+		case 'dz': prefix += 'dangerzone'; break;
+		case 'pr': prefix += 'rating'
+	}
+	if (rank <= 0) {
+		rank = 0;
+	}
+
+	if (type == 'pr') return prefix + "." + rank + '.png';
+
+	if (rank == 0 && wins >= 10) {
+		return prefix + '_expired.svg';
+	}
+	return prefix + rank + '.svg';
 }
 
 /**
@@ -39,35 +43,35 @@ function getRankImage(rank, wins, type) {
  * @returns {String} rank name
  */
 function getRankName(rank, wins) {
-  if (rank <= 0) {
-    rank = 0;
-  }
-  switch (rank) {
-    case 0:
-      if (wins >= 10) {
-        return "Expired";
-      }
-      return "Unranked";
-    case 1: return "Silver 1";
-    case 2: return "Silver 2";
-    case 3: return "Silver 3";
-    case 4: return "Silver 4";
-    case 5: return "Silver Elite";
-    case 6: return "Silver Elite Master";
-    case 7: return "Gold Nova 1";
-    case 8: return "Gold Nova 2";
-    case 9: return "Gold Nova 3";
-    case 10: return "Gold Nova Master";
-    case 11: return "Master Guardian 1";
-    case 12: return "Master Guardian 2";
-    case 13: return "Master Guardian Elite";
-    case 14: return "Distinguished Master Guardian";
-    case 15: return "Legendary Eagle";
-    case 16: return "Legendary Eagle Master";
-    case 17: return "Supreme Master First Class";
-    case 18: return "The Global Elite";
-    default: return `Unknown(${rank})`;
-  }
+	if (rank <= 0) {
+		rank = 0;
+	}
+	switch (rank) {
+		case 0:
+			if (wins >= 10) {
+				return "Expired";
+			}
+			return "Unranked";
+		case 1: return "Silver 1";
+		case 2: return "Silver 2";
+		case 3: return "Silver 3";
+		case 4: return "Silver 4";
+		case 5: return "Silver Elite";
+		case 6: return "Silver Elite Master";
+		case 7: return "Gold Nova 1";
+		case 8: return "Gold Nova 2";
+		case 9: return "Gold Nova 3";
+		case 10: return "Gold Nova Master";
+		case 11: return "Master Guardian 1";
+		case 12: return "Master Guardian 2";
+		case 13: return "Master Guardian Elite";
+		case 14: return "Distinguished Master Guardian";
+		case 15: return "Legendary Eagle";
+		case 16: return "Legendary Eagle Master";
+		case 17: return "Supreme Master First Class";
+		case 18: return "The Global Elite";
+		default: return `Unknown(${rank})`;
+	}
 }
 
 /**
@@ -76,18 +80,18 @@ function getRankName(rank, wins) {
  * @returns formatted string
  */
 function countdown(seconds) {
-  const d = Math.floor(seconds / (3600 * 24));
-  seconds -= d * 3600 * 24;
-  const h = Math.floor(seconds / 3600);
-  seconds -= h * 3600;
-  const m = Math.floor(seconds / 60);
-  seconds -= m * 60;
-  const tmp = [];
-  (d) && tmp.push(d + 'd');
-  (d || h) && tmp.push(("0" + h).slice(-2) + 'h');
-  tmp.push(("0" + m).slice(-2) + 'm');
-  //tmp.push(seconds + 's');
-  return tmp.join(' ');
+	const d = Math.floor(seconds / (3600 * 24));
+	seconds -= d * 3600 * 24;
+	const h = Math.floor(seconds / 3600);
+	seconds -= h * 3600;
+	const m = Math.floor(seconds / 60);
+	seconds -= m * 60;
+	const tmp = [];
+	(d) && tmp.push(d + 'd');
+	(d || h) && tmp.push(("0" + h).slice(-2) + 'h');
+	tmp.push(("0" + m).slice(-2) + 'm');
+	//tmp.push(seconds + 's');
+	return tmp.join(' ');
 }
 
 /**
@@ -97,16 +101,16 @@ function countdown(seconds) {
  * @returns {String}
  */
 function formatPenalty(reason, seconds) {
-  if (reason === 0) {
-    return '-';
-  }
-  if (seconds == -1) {
-    return reason;
-  }
-  if (Date.now() > seconds * 1000 || new Date(seconds * 1000).getFullYear() - new Date().getFullYear() > 100) {
-    return reason + ' - Expired';
-  }
-  return reason + ' - ' + countdown(seconds - Math.floor(Date.now() / 1000));
+	if (reason === 0) {
+		return '-';
+	}
+	if (seconds == -1) {
+		return reason;
+	}
+	if (Date.now() > seconds * 1000 || new Date(seconds * 1000).getFullYear() - new Date().getFullYear() > 100) {
+		return reason + ' - Expired';
+	}
+	return reason + ' - ' + countdown(seconds - Math.floor(Date.now() / 1000));
 }
 
 /**
@@ -115,11 +119,11 @@ function formatPenalty(reason, seconds) {
  * @returns {String}
  */
 function formatExpireTime(time) {
-  time = new Date(time.getTime());
-  //https://github.com/dumbasPL/csgo-checker/issues/3#issuecomment-827474759
-  //this is untested yet, i'm trusting what this guy says.
-  time.setDate(time.getDate() + 30);
-  return time.toLocaleString();
+	time = new Date(time.getTime());
+	//https://github.com/dumbasPL/csgo-checker/issues/3#issuecomment-827474759
+	//this is untested yet, i'm trusting what this guy says.
+	time.setDate(time.getDate() + 30);
+	return time.toLocaleString();
 }
 
 // credit: https://stackoverflow.com/a/11868398/5861427
@@ -129,12 +133,12 @@ function formatExpireTime(time) {
  * @returns {'black' | 'white'} text color
  */
 function getContrastYIQ(color) {
-  color = color.trim().replace('#', '');
-  var r = parseInt(color.substr(0, 2), 16);
-  var g = parseInt(color.substr(2, 2), 16);
-  var b = parseInt(color.substr(4, 2), 16);
-  var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-  return (yiq >= 128) ? 'black' : 'white';
+	color = color.trim().replace('#', '');
+	var r = parseInt(color.substr(0, 2), 16);
+	var g = parseInt(color.substr(2, 2), 16);
+	var b = parseInt(color.substr(4, 2), 16);
+	var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+	return (yiq >= 128) ? 'black' : 'white';
 }
 
 /**
@@ -144,12 +148,12 @@ function getContrastYIQ(color) {
  * @returns {Element}
  */
 function createBadge(text, color) {
-  let newBadge = document.querySelector('#badge-template').content.cloneNode(true);
-  let span = newBadge.querySelector('span');
-  span.innerHTML = "<tt>" + text + "</tt>";
-  span.style.backgroundColor = color;
-  span.style.color = getContrastYIQ(color);
-  return newBadge;
+	let newBadge = document.querySelector('#badge-template').content.cloneNode(true);
+	let span = newBadge.querySelector('span');
+	span.innerHTML = "<tt>" + text + "</tt>";
+	span.style.backgroundColor = color;
+	span.style.color = getContrastYIQ(color);
+	return newBadge;
 }
 
 /**
@@ -159,36 +163,36 @@ function createBadge(text, color) {
  * @param {Boolean} permanent is the toast permanent
  */
 function showToast(text, color, permanent = false) {
-  let newToast = document.querySelector('#toast-template').content.cloneNode(true);
-  newToast.querySelector('.toast-body').innerHTML = text;
-  let fg = 'white';
-  switch (color) {
-    case 'warning':
-    case 'info':
-    case 'light':
-    case 'body':
-    case 'white':
-    case 'transparent':
-      fg = 'dark';
-      break;
-  }
-  let toast_div = newToast.querySelector('.toast');
-  toast_div.classList.add('text-' + fg);
-  toast_div.classList.add('bg-' + color);
-  if (!permanent) {
-    toast_div.querySelector('button.btn-close').remove();
-  }
+	let newToast = document.querySelector('#toast-template').content.cloneNode(true);
+	newToast.querySelector('.toast-body').innerHTML = text;
+	let fg = 'white';
+	switch (color) {
+		case 'warning':
+		case 'info':
+		case 'light':
+		case 'body':
+		case 'white':
+		case 'transparent':
+			fg = 'dark';
+			break;
+	}
+	let toast_div = newToast.querySelector('.toast');
+	toast_div.classList.add('text-' + fg);
+	toast_div.classList.add('bg-' + color);
+	if (!permanent) {
+		toast_div.querySelector('button.btn-close').remove();
+	}
 
-  document.querySelector('.toast-container').appendChild(newToast);
+	document.querySelector('.toast-container').appendChild(newToast);
 
-  toast_div.addEventListener('hidden.bs.toast', () => {
-    toast_div.remove();
-  })
-  let toast = new bootstrap.Toast(toast_div, {
-    delay: 2000,
-    autohide: !permanent,
-  });
-  toast.show();
+	toast_div.addEventListener('hidden.bs.toast', () => {
+		toast_div.remove();
+	})
+	let toast = new bootstrap.Toast(toast_div, {
+		delay: 2000,
+		autohide: !permanent,
+	});
+	toast.show();
 }
 
 /**
@@ -197,15 +201,15 @@ function showToast(text, color, permanent = false) {
  * @returns {Element} new line
  */
 function createTagEdit(name, color = '#ECEFF4') {
-  let new_line = document.querySelector('#settings-tags-template').content.cloneNode(true).querySelector('.row');
-  new_line.id = 'tag-edit-' + name;
-  new_line.querySelector('input[type=text]').value = name;
-  new_line.querySelector('input[type=color]').value = color;
-  new_line.querySelector('button').addEventListener('click', e => {
-    e.preventDefault();
-    new_line.remove();
-  });
-  return new_line;
+	let new_line = document.querySelector('#settings-tags-template').content.cloneNode(true).querySelector('.row');
+	new_line.id = 'tag-edit-' + name;
+	new_line.querySelector('input[type=text]').value = name;
+	new_line.querySelector('input[type=color]').value = color;
+	new_line.querySelector('button').addEventListener('click', e => {
+		e.preventDefault();
+		new_line.remove();
+	});
+	return new_line;
 }
 
 /**
@@ -217,30 +221,30 @@ function createTagEdit(name, color = '#ECEFF4') {
  */
 function execSearch(q, login, account) {
 
-  q = q.trim();
-  if (q.length == 0) {
-    return true;
-  }
+	q = q.trim();
+	if (q.length == 0) {
+		return true;
+	}
 
-  let strings = [];
-  strings.push(login);
-  strings.push(account.name ?? null);
-  if (account.tags) {
-    account.tags.forEach(tag => {
-      strings.push(tag);
-    });
-  }
-  strings.push(account.prime ? "prime" : null);
-  strings.push(account.error ?? null);
-  strings.push(formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1));
-  strings.push(account.steamid ? "" + account.steamid : null)
-  strings.push(getRankName(account.rank ?? 0, account.wins ?? 0));
-  strings.push(getRankName(account.rank_wg ?? 0, account.wins_wg ?? 0));
-  strings.push(getRankName(account.rank_dz ?? 0, account.wins_dz ?? 0));
+	let strings = [];
+	strings.push(login);
+	strings.push(account.name ?? null);
+	if (account.tags) {
+		account.tags.forEach(tag => {
+			strings.push(tag);
+		});
+	}
+	strings.push(account.prime ? "prime" : null);
+	strings.push(account.error ?? null);
+	strings.push(formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1));
+	strings.push(account.steamid ? "" + account.steamid : null)
+	strings.push(getRankName(account.rank ?? 0, account.wins ?? 0));
+	strings.push(getRankName(account.rank_wg ?? 0, account.wins_wg ?? 0));
+	strings.push(getRankName(account.rank_dz ?? 0, account.wins_dz ?? 0));
 
-  return q.toLowerCase().split(' ').map(x => {
-    return strings.find(v => v && v.toLowerCase().includes(x)) != undefined
-  }).reduce((prev, cur) => prev && cur, true);
+	return q.toLowerCase().split(' ').map(x => {
+		return strings.find(v => v && v.toLowerCase().includes(x)) != undefined
+	}).reduce((prev, cur) => prev && cur, true);
 
 }
 
@@ -254,91 +258,91 @@ let LastClickedColumn;
  * @param {Boolean} increment change sorting direction
  */
 function handleSort(elem, increment = true) {
-  LastClickedColumn = elem;
+	LastClickedColumn = elem;
 
-  while (elem.tagName != 'TH') {
-    elem = elem.parentNode;
-  }
+	while (elem.tagName != 'TH') {
+		elem = elem.parentNode;
+	}
 
-  let col_name = elem.dataset.columnName;
-  let cur_sort_dir = elem.dataset.sortDir;
+	let col_name = elem.dataset.columnName;
+	let cur_sort_dir = elem.dataset.sortDir;
 
-  if (!col_name) {
-    return;
-  }
+	if (!col_name) {
+		return;
+	}
 
-  let new_sort_dir = cur_sort_dir;
-  if (increment) {
-    switch (cur_sort_dir) {
-      case 'none':
-        new_sort_dir = 'DESC';
-        break;
-      case 'DESC':
-        new_sort_dir = 'ASC';
-        break;
-      default: // same as case 'ASC'
-        new_sort_dir = 'none';
-        break;
-    }
-  }
+	let new_sort_dir = cur_sort_dir;
+	if (increment) {
+		switch (cur_sort_dir) {
+			case 'none':
+				new_sort_dir = 'DESC';
+				break;
+			case 'DESC':
+				new_sort_dir = 'ASC';
+				break;
+			default: // same as case 'ASC'
+				new_sort_dir = 'none';
+				break;
+		}
+	}
 
-  let new_order;
+	let new_order;
 
-  //special case as username is they key
-  if (col_name == "username") {
-    let usernames = Object.keys(account_cache);
-    if (new_sort_dir != 'none') {
-      usernames.sort();
-    }
-    if (new_sort_dir == 'DESC') {
-      usernames.reverse();
-    }
-    new_order = usernames;
-  } else {
-    let accounts = Object.entries(account_cache);
-    //combine bans and errors
-    if (col_name == 'ban') {
-      accounts = accounts.map(a => {
-        let clone = Object.assign({}, a[1]);
-        clone.ban = clone.error ?? formatPenalty(clone.penalty_reason ?? '?', clone.penalty_seconds ?? -1);
-        return [a[0], clone];
-      });
-    }
-    if (col_name == 'rank' || col_name == 'rank_dz' || col_name == 'rank_wg') {
-      accounts = accounts.map(a => {
-        let clone = Object.assign({}, a[1]);
-        clone[col_name] = Math.max(clone[col_name], 0); //clap -1 to 0 so sorting works correctly
-        return [a[0], clone];
-      });
-    }
-    if (col_name == 'prime') {
-      accounts = accounts.map(a => {
-        let clone = Object.assign({}, a[1]);
-        clone.prime = clone.prime ? 1 : 0; //convert to integer
-        return [a[0], clone];
-      });
-    }
-    if (new_sort_dir != 'none') {
-      accounts.sort((a, b) => {
-        a = a[1];
-        b = b[1];
-        return a[col_name] > b[col_name] ? 1 : -1;
-      });
-    }
-    if (new_sort_dir == 'DESC') {
-      accounts.reverse();
-    }
-    new_order = accounts.map(a => a[0]);
-  }
+	//special case as username is they key
+	if (col_name == "username") {
+		let usernames = Object.keys(account_cache);
+		if (new_sort_dir != 'none') {
+			usernames.sort();
+		}
+		if (new_sort_dir == 'DESC') {
+			usernames.reverse();
+		}
+		new_order = usernames;
+	} else {
+		let accounts = Object.entries(account_cache);
+		//combine bans and errors
+		if (col_name == 'ban') {
+			accounts = accounts.map(a => {
+				let clone = Object.assign({}, a[1]);
+				clone.ban = clone.error ?? formatPenalty(clone.penalty_reason ?? '?', clone.penalty_seconds ?? -1);
+				return [a[0], clone];
+			});
+		}
+		if (col_name == 'rank' || col_name == 'rank_dz' || col_name == 'rank_wg') {
+			accounts = accounts.map(a => {
+				let clone = Object.assign({}, a[1]);
+				clone[col_name] = Math.max(clone[col_name], 0); //clap -1 to 0 so sorting works correctly
+				return [a[0], clone];
+			});
+		}
+		if (col_name == 'prime') {
+			accounts = accounts.map(a => {
+				let clone = Object.assign({}, a[1]);
+				clone.prime = clone.prime ? 1 : 0; //convert to integer
+				return [a[0], clone];
+			});
+		}
+		if (new_sort_dir != 'none') {
+			accounts.sort((a, b) => {
+				a = a[1];
+				b = b[1];
+				return a[col_name] > b[col_name] ? 1 : -1;
+			});
+		}
+		if (new_sort_dir == 'DESC') {
+			accounts.reverse();
+		}
+		new_order = accounts.map(a => a[0]);
+	}
 
-  document.querySelectorAll('#main-table th.sortable').forEach(e => e.dataset.sortDir = 'none');
-  elem.dataset.sortDir = new_sort_dir;
+	document.querySelectorAll('#main-table th.sortable').forEach(e => e.dataset.sortDir = 'none');
+	elem.dataset.sortDir = new_sort_dir;
 
-  let tbody = document.querySelector('#main-table tbody');
-  new_order.forEach(login => {
-    let node = document.getElementById('acc-' + login);
-    tbody.insertBefore(node, null);
-  })
+	let tbody = document.querySelector('#main-table tbody');
+	new_order.forEach(login => {
+		let node = document.getElementById('acc-' + login);
+		tbody.insertBefore(node, null);
+	})
 
 }
 
@@ -355,23 +359,23 @@ function handleSort(elem, increment = true) {
  * @returns {Element} table row
  */
 function FindOrCreateRow(login, createCallback) {
-  let table_body = document.querySelector('#main-table tbody');
+	let table_body = document.querySelector('#main-table tbody');
 
-  let tr = document.getElementById('acc-' + login);
-  if (!tr) {
-    let template = document.querySelector('#row-template');
-    tr = template.content.cloneNode(true).querySelector('tr');
-    tr.id = 'acc-' + login;
-    //tr.querySelector('td.login').innerText = login;
-    tr.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el, { trigger: 'hover' }));
+	let tr = document.getElementById('acc-' + login);
+	if (!tr) {
+		let template = document.querySelector('#row-template');
+		tr = template.content.cloneNode(true).querySelector('tr');
+		tr.id = 'acc-' + login;
+		//tr.querySelector('td.login').innerText = login;
+		tr.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el, { trigger: 'hover' }));
 
-    if (createCallback) {
-      createCallback(tr);
-    }
+		if (createCallback) {
+			createCallback(tr);
+		}
 
-    table_body.appendChild(tr);
-  }
-  return tr;
+		table_body.appendChild(tr);
+	}
+	return tr;
 }
 
 /**
@@ -383,103 +387,106 @@ function FindOrCreateRow(login, createCallback) {
  * @returns {Boolean} account data changed
  */
 function updateRow(row, login, account, force) {
-  let changed = false;
-  if (!equal(account_cache[login], account) || force) {
-    account_cache[login] = account;
+	let changed = false;
+	if (!equal(account_cache[login], account) || force) {
+		account_cache[login] = account;
 
-    row.className = account.pending ? 'pending' : '';
+		row.className = account.pending ? 'pending' : '';
 
-    row.querySelector('.steam_name').innerText = account.name ?? '?';
-    let tags = row.querySelector('.tags')
-    while (tags.firstChild) {
-      tags.firstChild.remove();
-    }
-    if (account.tags.length > 0) {
-      account.tags.forEach(tag => {
-        let color = tags_cache[tag];
-        if (!color) {
-          color = '#ECEFF4';
-        }
-        let badge = createBadge(tag, color);
-        tags.appendChild(badge);
-      });
-    } else {
-      let badge = createBadge(friendCode.encode(account.steamid), "#A3BE8C");
-      tags.appendChild(badge);
-    }
-    row.querySelector('.level').innerText = account.lvl ?? '?';
-    row.querySelector('.prime img').className = account.steamid ? account.prime ? 'prime-green' : 'prime-red' : '';
+		row.querySelector('.steam_name').innerText = account.name ?? '?';
+		let tags = row.querySelector('.tags')
+		while (tags.firstChild) {
+			tags.firstChild.remove();
+		}
+		// if (account.tags.length > 0) {
+		// 	account.tags.forEach(tag => {
+		// 		let color = tags_cache[tag];
+		// 		if (!color) {
+		// 			color = '#ECEFF4';
+		// 		}
+		// 		let badge = createBadge(tag, color);
+		// 		tags.appendChild(badge);
+		// 	});
+		// } else {
+		// 	let badge = createBadge(friendCode.encode(account.steamid), "#A3BE8C");
+		// 	tags.appendChild(badge);
+		// }
+		row.querySelector('.level').innerText = account.player_level ?? '?';
+		row.querySelector('.prime img').className = account.steamid ? account.prime ? 'prime-green' : 'prime-red' : '';
 
-    row.querySelector('.rank .mm').src = getRankImage(account.rank ?? 0, account.wins ?? 0, 'mm');
-    row.querySelector('.rank .wg').src = getRankImage(account.rank_wg ?? 0, account.wins_wg ?? 0, 'wg');
-    row.querySelector('.rank .dz').src = getRankImage(account.rank_dz ?? 0, account.wins_dz, 'dz');
+		let premier = (account.rankings || []).find(r => r.rank_type_id === 11);
 
-    let mm_expire = account.last_game ? '<br>expires ' + formatExpireTime(new Date(account.last_game)) : '';
-    let wg_expire = account.last_game_wg ? '<br>expires ' + formatExpireTime(new Date(account.last_game_wg)) : '';
-    let dz_expire = account.last_game_dz ? '<br>expires ' + formatExpireTime(new Date(account.last_game_dz)) : '';
+		row.querySelector('.rank .cs2rating').style.backgroundUrl = getRankImage(premier?.eloIndex ?? 0, premier?.wins ?? 0, 'pr');
+		row.querySelector('.rank .cs2rating').querySelector('span').innerText = premier.rank_id || '---';
+		row.querySelector('.rank .wg').src = getRankImage(account.rank_wg ?? 0, account.wins_wg ?? 0, 'wg');
+		//row.querySelector('.rank .dz').src = getRankImage(account.rank_dz ?? 0, account.wins_dz, 'dz');
 
-    row.querySelector('.rank .mm').title = getRankName(account.rank ?? 0, account.wins ?? 0) +
-      '<br>' + (account.wins < 0 ? '?' : account.wins ?? '?') + ' wins' + mm_expire;
-    row.querySelector('.rank .wg').title = getRankName(account.rank_wg ?? 0, account.wins_wg ?? 0) +
-      '<br>' + (account.wins_wg ?? '?') + ' wins' + wg_expire;
-    row.querySelector('.rank .dz').title = getRankName(account.rank_dz ?? 0, account.wins_dz ?? 0) +
-      '<br>' + (account.wins_dz ?? '?') + ' wins' + dz_expire;
+		let mm_expire = account.last_game ? '<br>expires ' + formatExpireTime(new Date(account.last_game)) : '';
+		let wg_expire = account.last_game_wg ? '<br>expires ' + formatExpireTime(new Date(account.last_game_wg)) : '';
+		let dz_expire = account.last_game_dz ? '<br>expires ' + formatExpireTime(new Date(account.last_game_dz)) : '';
 
-
-    bootstrap.Tooltip.getInstance(row.querySelector('.rank .mm'))._fixTitle();
-    bootstrap.Tooltip.getInstance(row.querySelector('.rank .wg'))._fixTitle();
-    bootstrap.Tooltip.getInstance(row.querySelector('.rank .dz'))._fixTitle();
+		//row.querySelector('.rank .mm').title = getRankName(account.rank ?? 0, account.wins ?? 0) +
+		//	'<br>' + (account.wins < 0 ? '?' : account.wins ?? '?') + ' wins' + mm_expire;
+		row.querySelector('.rank .wg').title = getRankName(account.rank_wg ?? 0, account.wins_wg ?? 0) +
+			'<br>' + (account.wins_wg ?? '?') + ' wins' + wg_expire;
+		//row.querySelector('.rank .dz').title = getRankName(account.rank_dz ?? 0, account.wins_dz ?? 0) +
+		//	'<br>' + (account.wins_dz ?? '?') + ' wins' + dz_expire;
 
 
-    row.querySelector('.ban').innerHTML.indexOf("Expired") != -1 ? row.querySelector('.ban').classList.add("text-muted") : row.querySelector('.ban').classList.remove("text-muted");
-    row.querySelector('.ban').innerHTML = account.error ?? formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1)
+		//bootstrap.Tooltip.getInstance(row.querySelector('.rank .mm'))._fixTitle();
+		bootstrap.Tooltip.getInstance(row.querySelector('.rank .wg'))._fixTitle();
+		//bootstrap.Tooltip.getInstance(row.querySelector('.rank .dz'))._fixTitle();
 
 
-    let dis = account.steamid ? 'inline-block' : 'none';
-    row.querySelector('.copy-code').style.display = dis;
-    row.querySelector('.open-pofile').style.display = dis;
+		row.querySelector('.ban').innerHTML.indexOf("Expired") != -1 ? row.querySelector('.ban').classList.add("text-muted") : row.querySelector('.ban').classList.remove("text-muted");
+		row.querySelector('.ban').innerHTML = account.error ?? formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1)
 
-    changed = true;
-  }
 
-  /*
-  <a href="#!" class="text-info text-decoration-none copy-passwd" data-bs-toggle="tooltip" title="" data-bs-original-title="copy password">
-                    <i class="fa-solid fa-fw fa-key"></i>
-                </a>
-  */
+		let dis = account.steamid ? 'inline-block' : 'none';
+		row.querySelector('.copy-code').style.display = dis;
+		row.querySelector('.open-pofile').style.display = dis;
 
-  if (account.locked) {
-    row.querySelector('.ban').innerHTML = `${formatPenalty("Locked", new Date(account.locked_until).getTime() / 1000)}`;
-    row.querySelector('.ban').classList.add("text-danger");
-    row.querySelector('.steam_name').classList.add("text-danger");
-    row.querySelector('.level').classList.add("text-danger");
-  } else {
-    row.querySelector('.ban').classList.remove("text-danger");
-    row.querySelector('.steam_name').classList.remove("text-danger");
-    row.querySelector('.level').classList.remove("text-danger");
-  }
+		changed = true;
+	}
 
-  if (account.penalty_seconds > 0) {
-    row.querySelector('.ban').innerText = account.error ?? formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1)
-    if (account.locked)
-      row.querySelector('.ban').innerHTML += ` ~ ${formatPenalty("Locked", new Date(account.locked_until).getTime() / 1000)}`;
-  }
+	/*
+	<a href="#!" class="text-info text-decoration-none copy-passwd" data-bs-toggle="tooltip" title="" data-bs-original-title="copy password">
+					  <i class="fa-solid fa-fw fa-key"></i>
+				  </a>
+	*/
 
-  return changed;
+	if (account.locked) {
+		row.querySelector('.ban').innerHTML = `${formatPenalty("Locked", new Date(account.locked_until).getTime() / 1000)}`;
+		row.querySelector('.ban').classList.add("text-danger");
+		row.querySelector('.steam_name').classList.add("text-danger");
+		row.querySelector('.level').classList.add("text-danger");
+	} else {
+		row.querySelector('.ban').classList.remove("text-danger");
+		row.querySelector('.steam_name').classList.remove("text-danger");
+		row.querySelector('.level').classList.remove("text-danger");
+	}
+
+	if (account.penalty_seconds > 0) {
+		row.querySelector('.ban').innerText = account.error ?? formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1)
+		if (account.locked)
+			row.querySelector('.ban').innerHTML += ` ~ ${formatPenalty("Locked", new Date(account.locked_until).getTime() / 1000)}`;
+	}
+
+	return changed;
 }
 
 function performSearch() {
-  let q = document.querySelector('#search').value;
+	let q = document.querySelector('#search').value;
 
-  for (const login in account_cache) {
-    const account = account_cache[login];
-    let matches = execSearch(q, login, account);
+	for (const login in account_cache) {
+		const account = account_cache[login];
+		let matches = execSearch(q, login, account);
 
-    let row = document.getElementById('acc-' + login)
-    if (row) {
-      row.style.display = matches ? '' : 'none';
-    }
-  }
+		let row = document.getElementById('acc-' + login)
+		if (row) {
+			row.style.display = matches ? '' : 'none';
+		}
+	}
 }
 
 var update_cycle = -1;
@@ -488,398 +495,398 @@ var update_cycle = -1;
  * @param {Boolean} force force update
  */
 async function updateAccounts(force = false) {
-  clearTimeout(update_cycle);
-  tags_cache = await ipcRenderer.invoke('settings:get', 'tags');
-  const accounts = await ipcRenderer.invoke('accounts:get');
-  let changed = false;
-  for (const login in accounts) {
-    let row = FindOrCreateRow(login, tr => {
-      tr.querySelector('.copy-code').addEventListener('click', e => {
-        e.preventDefault();
-        clipboard.writeText(friendCode.encode(account_cache[login].steamid), 'selection');
-        showToast('Code copied to clipboard', 'success');
-      });
+	clearTimeout(update_cycle);
+	tags_cache = await ipcRenderer.invoke('settings:get', 'tags');
+	const accounts = await ipcRenderer.invoke('accounts:get');
+	let changed = false;
+	for (const login in accounts) {
+		let row = FindOrCreateRow(login, tr => {
+			tr.querySelector('.copy-code').addEventListener('click', e => {
+				e.preventDefault();
+				clipboard.writeText(friendCode.encode(account_cache[login].steamid), 'selection');
+				showToast('Code copied to clipboard', 'success');
+			});
 
-      tr.querySelector('.copy-passwd').addEventListener('click', e => {
-        e.preventDefault();
-        clipboard.writeText(account_cache[login].password, 'selection');
-        showToast('Password copied to clipboard', 'success');
-      });
+			tr.querySelector('.copy-passwd').addEventListener('click', e => {
+				e.preventDefault();
+				clipboard.writeText(account_cache[login].password, 'selection');
+				showToast('Password copied to clipboard', 'success');
+			});
 
-      tr.querySelector('.copy-accname').addEventListener('click', e => {
-        e.preventDefault();
-        clipboard.writeText(login, 'selection');
-        showToast('Account name copied to clipboard', 'success');
-      });
+			tr.querySelector('.copy-accname').addEventListener('click', e => {
+				e.preventDefault();
+				clipboard.writeText(login, 'selection');
+				showToast('Account name copied to clipboard', 'success');
+			});
 
-      tr.querySelector('.lock-acc').addEventListener('click', e => {
-        e.preventDefault();
-        let locked = !account_cache[login].locked;
-        let now = new Date();
-        let locked_until = locked ? new Date(now.setDate(now.getDate() + 1)) : now;
-        ipcRenderer.invoke('accounts:update', login, {
-          locked,
-          locked_until,
-        });
-        showToast(`Account is now ${locked ? `locked until ${new Date(locked_until).toLocaleString()}` : "unlocked"}`, locked ? "warning" : "success");
-      });
+			tr.querySelector('.lock-acc').addEventListener('click', e => {
+				e.preventDefault();
+				let locked = !account_cache[login].locked;
+				let now = new Date();
+				let locked_until = locked ? new Date(now.setDate(now.getDate() + 1)) : now;
+				ipcRenderer.invoke('accounts:update', login, {
+					locked,
+					locked_until,
+				});
+				showToast(`Account is now ${locked ? `locked until ${new Date(locked_until).toLocaleString()}` : "unlocked"}`, locked ? "warning" : "success");
+			});
 
-      tr.querySelector('.open-pofile').addEventListener('click', e => {
-        e.preventDefault();
-        shell.openExternal('https://steamcommunity.com/profiles/' + account_cache[login].steamid);
-      });
+			tr.querySelector('.open-pofile').addEventListener('click', e => {
+				e.preventDefault();
+				shell.openExternal('https://steamcommunity.com/profiles/' + account_cache[login].steamid);
+			});
 
-      tr.querySelector('.refresh').addEventListener('click', async e => {
-        e.preventDefault();
-        let promise = ipcRenderer.invoke('accounts:check', login);
-        updateAccounts();
-        let ret = await promise;
-        if (ret.error) {
-          showToast(login + ': ' + ret.error, 'danger');
-        }
-        updateAccounts();
-      });
-      tr.querySelector('.delete').addEventListener('click', async e => {
-        e.preventDefault();
-        if (e.ctrlKey) {
-          await ipcRenderer.invoke('accounts:delete', login);
-          updateAccounts();
-          tr.remove();
-          document.querySelectorAll('.tooltip').forEach(elem => elem.remove()); //remove all tooltips when ctrl click deleting (I think this will leak memory in bootstrap, oh well, to lazy to do properly)
-        } else {
-          let modal_div = document.querySelector('#confirmDeleteAccount');
-          modal_div.querySelector('input[name=login]').value = login;
-          bootstrap.Modal.getInstance(modal_div).show();
-        }
-      });
+			tr.querySelector('.refresh').addEventListener('click', async e => {
+				e.preventDefault();
+				let promise = ipcRenderer.invoke('accounts:check', login);
+				updateAccounts();
+				let ret = await promise;
+				if (ret.error) {
+					showToast(login + ': ' + ret.error, 'danger');
+				}
+				updateAccounts();
+			});
+			tr.querySelector('.delete').addEventListener('click', async e => {
+				e.preventDefault();
+				if (e.ctrlKey) {
+					await ipcRenderer.invoke('accounts:delete', login);
+					updateAccounts();
+					tr.remove();
+					document.querySelectorAll('.tooltip').forEach(elem => elem.remove()); //remove all tooltips when ctrl click deleting (I think this will leak memory in bootstrap, oh well, to lazy to do properly)
+				} else {
+					let modal_div = document.querySelector('#confirmDeleteAccount');
+					modal_div.querySelector('input[name=login]').value = login;
+					bootstrap.Modal.getInstance(modal_div).show();
+				}
+			});
 
-      tr.querySelector('.edit').addEventListener('click', async e => {
-        e.preventDefault();
-        bootstrap.Modal.getInstance(document.querySelector('#editAccountModal')).show(login);
-      });
-    });
+			tr.querySelector('.edit').addEventListener('click', async e => {
+				e.preventDefault();
+				bootstrap.Modal.getInstance(document.querySelector('#editAccountModal')).show(login);
+			});
+		});
 
-    changed |= updateRow(row, login, accounts[login], force);
-  }
-  if (changed) {
-    performSearch();
-    if (LastClickedColumn) {
-      handleSort(LastClickedColumn, false);
-    }
-  }
-  update_cycle = setTimeout(updateAccounts, 500);
+		changed |= updateRow(row, login, accounts[login], force);
+	}
+	if (changed) {
+		performSearch();
+		if (LastClickedColumn) {
+			handleSort(LastClickedColumn, false);
+		}
+	}
+	update_cycle = setTimeout(updateAccounts, 500);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => {
-    new bootstrap.Tooltip(el, { trigger: 'hover' });
-  });
+	document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => {
+		new bootstrap.Tooltip(el, { trigger: 'hover' });
+	});
 
-  let deleteConfirmationModal_div = document.querySelector('#confirmDeleteAccount');
-  let deleteConfirmationModal = new bootstrap.Modal(deleteConfirmationModal_div);
-  deleteConfirmationModal_div.querySelector('button.btn.btn-danger').addEventListener('click', async () => {
-    deleteConfirmationModal.hide();
-    let login = deleteConfirmationModal_div.querySelector('input[name=login]').value;
-    if (login) {
-      await ipcRenderer.invoke('accounts:delete', login);
-      document.getElementById('acc-' + login).remove();
-      updateAccounts();
-    }
-  });
+	let deleteConfirmationModal_div = document.querySelector('#confirmDeleteAccount');
+	let deleteConfirmationModal = new bootstrap.Modal(deleteConfirmationModal_div);
+	deleteConfirmationModal_div.querySelector('button.btn.btn-danger').addEventListener('click', async () => {
+		deleteConfirmationModal.hide();
+		let login = deleteConfirmationModal_div.querySelector('input[name=login]').value;
+		if (login) {
+			await ipcRenderer.invoke('accounts:delete', login);
+			document.getElementById('acc-' + login).remove();
+			updateAccounts();
+		}
+	});
 
-  let editAccountModal_div = document.querySelector('#editAccountModal');
-  let editAccountModal = new bootstrap.Modal(editAccountModal_div);
+	let editAccountModal_div = document.querySelector('#editAccountModal');
+	let editAccountModal = new bootstrap.Modal(editAccountModal_div);
 
-  editAccountModal_div.addEventListener('show.bs.modal', async e => {
-    //hide password and shared secret by default
-    editAccountModal_div.querySelectorAll('.showHidePassword input').forEach(elem => elem.setAttribute('type', 'password'));
-    editAccountModal_div.querySelectorAll('.showHidePassword i').forEach(elem => elem.innerText = 'visibility_off');
+	editAccountModal_div.addEventListener('show.bs.modal', async e => {
+		//hide password and shared secret by default
+		editAccountModal_div.querySelectorAll('.showHidePassword input').forEach(elem => elem.setAttribute('type', 'password'));
+		editAccountModal_div.querySelectorAll('.showHidePassword i').forEach(elem => elem.innerText = 'visibility_off');
 
-    let title = editAccountModal_div.querySelector('.modal-title');
-    let username = editAccountModal_div.querySelector('#user-name');
-    let password = editAccountModal_div.querySelector('#user-passwd');
-    let secret = editAccountModal_div.querySelector('#user-secret');
-    let tags = editAccountModal_div.querySelector('#user-tags');
+		let title = editAccountModal_div.querySelector('.modal-title');
+		let username = editAccountModal_div.querySelector('#user-name');
+		let password = editAccountModal_div.querySelector('#user-passwd');
+		let secret = editAccountModal_div.querySelector('#user-secret');
+		let tags = editAccountModal_div.querySelector('#user-tags');
 
-    await ipcRenderer.invoke('settings:get', 'tags').then(new_tags => {
-      while (tags.firstChild) {
-        tags.firstChild.remove();
-      }
+		await ipcRenderer.invoke('settings:get', 'tags').then(new_tags => {
+			while (tags.firstChild) {
+				tags.firstChild.remove();
+			}
 
-      let def_option = document.createElement('option');
-      def_option.value = '-- no tags --';
-      def_option.innerText = '-- no tags --';
-      tags.appendChild(def_option);
+			let def_option = document.createElement('option');
+			def_option.value = '-- no tags --';
+			def_option.innerText = '-- no tags --';
+			tags.appendChild(def_option);
 
-      for (const tag in new_tags) {
-        const color = new_tags[tag];
-        let option = document.createElement('option');
-        option.value = tag;
-        option.innerText = tag;
-        option.style.color = color;
-        tags.appendChild(option);
-      }
-    });
-    tags.querySelectorAll('option').forEach(opt => opt.selected = false);
+			for (const tag in new_tags) {
+				const color = new_tags[tag];
+				let option = document.createElement('option');
+				option.value = tag;
+				option.innerText = tag;
+				option.style.color = color;
+				tags.appendChild(option);
+			}
+		});
+		tags.querySelectorAll('option').forEach(opt => opt.selected = false);
 
-    if (!e.relatedTarget) {
-      title.innerText = 'Add new account';
-      username.value = '';
-      username.disabled = false;
-      password.value = '';
-      secret.value = '';
-    } else {
-      let login = e.relatedTarget;
-      let account = account_cache[login];
+		if (!e.relatedTarget) {
+			title.innerText = 'Add new account';
+			username.value = '';
+			username.disabled = false;
+			password.value = '';
+			secret.value = '';
+		} else {
+			let login = e.relatedTarget;
+			let account = account_cache[login];
 
-      title.innerText = 'Edit account';
-      username.value = login;
-      username.disabled = true;
-      password.value = account.password;
-      secret.value = account.sharedSecret ?? '';
-      (account.tags ?? []).forEach(tag => {
-        let opt = tags.querySelector('option[value="' + tag + '"]');
-        if (!opt) {
-          opt = document.createElement('option');
-          opt.value = tag;
-          opt.innerText = tag;
-          tags.appendChild(opt);
-        }
-        opt.selected = true;
-      });
-      if (tags.querySelectorAll('option:checked').length == 0) {
-        tags.querySelector('option[value="-- no tags --"]').selected = true;
-      }
-    }
-  });
+			title.innerText = 'Edit account';
+			username.value = login;
+			username.disabled = true;
+			password.value = account.password;
+			secret.value = account.sharedSecret ?? '';
+			(account.tags ?? []).forEach(tag => {
+				let opt = tags.querySelector('option[value="' + tag + '"]');
+				if (!opt) {
+					opt = document.createElement('option');
+					opt.value = tag;
+					opt.innerText = tag;
+					tags.appendChild(opt);
+				}
+				opt.selected = true;
+			});
+			if (tags.querySelectorAll('option:checked').length == 0) {
+				tags.querySelector('option[value="-- no tags --"]').selected = true;
+			}
+		}
+	});
 
-  document.querySelector('#new-account').addEventListener('click', () => {
-    editAccountModal.show();
-  });
+	document.querySelector('#new-account').addEventListener('click', () => {
+		editAccountModal.show();
+	});
 
-  document.querySelectorAll('.showHidePassword').forEach(elem => {
-    let input = elem.querySelector('input');
-    let icon = elem.querySelector('i');
-    elem.querySelector('a').addEventListener('click', e => {
-      e.preventDefault();
-      if (input.getAttribute('type') == 'text') {
-        input.setAttribute('type', 'password');
-        icon.innerText = 'visibility_off';
-      } else {
-        input.setAttribute('type', 'text');
-        icon.innerText = 'visibility';
-      }
-    });
-  });
+	document.querySelectorAll('.showHidePassword').forEach(elem => {
+		let input = elem.querySelector('input');
+		let icon = elem.querySelector('i');
+		elem.querySelector('a').addEventListener('click', e => {
+			e.preventDefault();
+			if (input.getAttribute('type') == 'text') {
+				input.setAttribute('type', 'password');
+				icon.innerText = 'visibility_off';
+			} else {
+				input.setAttribute('type', 'text');
+				icon.innerText = 'visibility';
+			}
+		});
+	});
 
-  editAccountModal_div.querySelector('button.btn.btn-primary').addEventListener('click', async e => {
-    e.preventDefault();
-    editAccountModal.hide();
+	editAccountModal_div.querySelector('button.btn.btn-primary').addEventListener('click', async e => {
+		e.preventDefault();
+		editAccountModal.hide();
 
-    let username = editAccountModal_div.querySelector('#user-name');
-    let password = editAccountModal_div.querySelector('#user-passwd');
-    let secret = editAccountModal_div.querySelector('#user-secret');
-    let tags = editAccountModal_div.querySelector('#user-tags');
-    let tag_values = [...tags.selectedOptions].map(x => x.value).filter(x => x != '-- no tags --');
+		let username = editAccountModal_div.querySelector('#user-name');
+		let password = editAccountModal_div.querySelector('#user-passwd');
+		let secret = editAccountModal_div.querySelector('#user-secret');
+		let tags = editAccountModal_div.querySelector('#user-tags');
+		let tag_values = [...tags.selectedOptions].map(x => x.value).filter(x => x != '-- no tags --');
 
-    if (!username.disabled) { //if login is enabled then we are adding new account
-      await ipcRenderer.invoke('accounts:add', username.value, password.value);
-      await ipcRenderer.invoke('accounts:update', username.value, {
-        tags: tag_values,
-        sharedSecret: secret.value.trim().length > 0 ? secret.value : undefined
-      });
-      let ret = ipcRenderer.invoke('accounts:check', username.value);
-      updateAccounts();
-      ret = await ret;
-      if (ret.error) {
-        showToast(username.value + ': ' + ret.error, 'danger');
-      }
-      updateAccounts();
-    } else {
-      await ipcRenderer.invoke('accounts:update', username.value, {
-        password: password.value,
-        tags: tag_values,
-        sharedSecret: secret.value.trim().length > 0 ? secret.value : undefined
-      });
-      updateAccounts();
-    }
-    let promise = ipcRenderer.invoke('accounts:check', login);
-    updateAccounts();
-    let ret = await promise;
-    if (ret.error) {
-      showToast(login + ': ' + ret.error, 'danger');
-    }
-    updateAccounts();
-  });
+		if (!username.disabled) { //if login is enabled then we are adding new account
+			await ipcRenderer.invoke('accounts:add', username.value, password.value);
+			await ipcRenderer.invoke('accounts:update', username.value, {
+				tags: tag_values,
+				sharedSecret: secret.value.trim().length > 0 ? secret.value : undefined
+			});
+			let ret = ipcRenderer.invoke('accounts:check', username.value);
+			updateAccounts();
+			ret = await ret;
+			if (ret.error) {
+				showToast(username.value + ': ' + ret.error, 'danger');
+			}
+			updateAccounts();
+		} else {
+			await ipcRenderer.invoke('accounts:update', username.value, {
+				password: password.value,
+				tags: tag_values,
+				sharedSecret: secret.value.trim().length > 0 ? secret.value : undefined
+			});
+			updateAccounts();
+		}
+		let promise = ipcRenderer.invoke('accounts:check', login);
+		updateAccounts();
+		let ret = await promise;
+		if (ret.error) {
+			showToast(login + ': ' + ret.error, 'danger');
+		}
+		updateAccounts();
+	});
 
-  let steamGuardModal_div = document.querySelector('#steamGuardModal');
-  let steamGuardModal = new bootstrap.Modal(steamGuardModal_div);
+	let steamGuardModal_div = document.querySelector('#steamGuardModal');
+	let steamGuardModal = new bootstrap.Modal(steamGuardModal_div);
 
-  steamGuardModal_div.addEventListener('show.bs.modal', () => {
-    steamGuardModal_div.querySelector('#steam-guard').value = '';
-  })
+	steamGuardModal_div.addEventListener('show.bs.modal', () => {
+		steamGuardModal_div.querySelector('#steam-guard').value = '';
+	})
 
-  let code_sent = false;
-  steamGuardModal_div.addEventListener('hide.bs.modal', e => {
-    if (!code_sent) {
-      ipcRenderer.send('steam:steamguard:response', null);
-    }
-    code_sent = false;
-  })
+	let code_sent = false;
+	steamGuardModal_div.addEventListener('hide.bs.modal', e => {
+		if (!code_sent) {
+			ipcRenderer.send('steam:steamguard:response', null);
+		}
+		code_sent = false;
+	})
 
-  steamGuardModal_div.querySelector('button.btn.btn-primary').addEventListener('click', async e => {
-    e.preventDefault();
-    let code = steamGuardModal_div.querySelector('#steam-guard').value.trim();
-    ipcRenderer.send('steam:steamguard:response', code.length == 0 ? null : code);
-    code_sent = true;
-    steamGuardModal.hide();
-  })
+	steamGuardModal_div.querySelector('button.btn.btn-primary').addEventListener('click', async e => {
+		e.preventDefault();
+		let code = steamGuardModal_div.querySelector('#steam-guard').value.trim();
+		ipcRenderer.send('steam:steamguard:response', code.length == 0 ? null : code);
+		code_sent = true;
+		steamGuardModal.hide();
+	})
 
-  ipcRenderer.on('steam:steamguard', (_, username) => {
-    steamGuardModal_div.querySelector('#steam-guard-username').innerText = username;
-    steamGuardModal.show();
-  });
+	ipcRenderer.on('steam:steamguard', (_, username) => {
+		steamGuardModal_div.querySelector('#steam-guard-username').innerText = username;
+		steamGuardModal.show();
+	});
 
-  document.querySelector('#import').addEventListener('click', async e => {
-    e.preventDefault();
-    await ipcRenderer.invoke('accounts:import');
-  });
+	document.querySelector('#import').addEventListener('click', async e => {
+		e.preventDefault();
+		await ipcRenderer.invoke('accounts:import');
+	});
 
-  document.querySelector('#export').addEventListener('click', async e => {
-    e.preventDefault();
-    await ipcRenderer.invoke('accounts:export');
-  });
+	document.querySelector('#export').addEventListener('click', async e => {
+		e.preventDefault();
+		await ipcRenderer.invoke('accounts:export');
+	});
 
-  ipcRenderer.on('update:available', (_, autoDownload, updateUrl) => {
-    if (autoDownload) {
-      return showToast('New update available, downloading...', 'success');
-    }
-    return showToast(`New update available, <br>you can <a href="${updateUrl}" class="text-white" target="_blank" onclick="shell.openExternal(this.href); return false;">download it here</a>`, 'success', true);
-  })
-  ipcRenderer.on('update:downloaded', _ => {
-    showToast('Update downloaded, restart the program to update', 'success');
-    document.title += " (Update available)";
-  })
+	ipcRenderer.on('update:available', (_, autoDownload, updateUrl) => {
+		if (autoDownload) {
+			return showToast('New update available, downloading...', 'success');
+		}
+		return showToast(`New update available, <br>you can <a href="${updateUrl}" class="text-white" target="_blank" onclick="shell.openExternal(this.href); return false;">download it here</a>`, 'success', true);
+	})
+	ipcRenderer.on('update:downloaded', _ => {
+		showToast('Update downloaded, restart the program to update', 'success');
+		document.title += " (Update available)";
+	})
 
-  document.querySelector('#reloadall').addEventListener('click', async e => {
-    const accounts = await ipcRenderer.invoke('accounts:get');
-    for (const login in accounts) {
-      if (Object.hasOwnProperty.call(accounts, login)) {
-        ipcRenderer.invoke('accounts:check', login).then(ret => {
-          if (ret.error) {
-            showToast(login + ': ' + ret.error, 'danger');
-          }
-        });
-        await new Promise(p => setTimeout(p, 200));
-      }
-    }
-    updateAccounts();
-  });
+	document.querySelector('#reloadall').addEventListener('click', async e => {
+		const accounts = await ipcRenderer.invoke('accounts:get');
+		for (const login in accounts) {
+			if (Object.hasOwnProperty.call(accounts, login)) {
+				ipcRenderer.invoke('accounts:check', login).then(ret => {
+					if (ret.error) {
+						showToast(login + ': ' + ret.error, 'danger');
+					}
+				});
+				await new Promise(p => setTimeout(p, 200));
+			}
+		}
+		updateAccounts();
+	});
 
-  let settingsModal_div = document.querySelector('#settingsModal');
-  let settingsModal = new bootstrap.Modal(settingsModal_div);
-  let setup_encryption_div = settingsModal_div.querySelector("#setup-encryption");
+	let settingsModal_div = document.querySelector('#settingsModal');
+	let settingsModal = new bootstrap.Modal(settingsModal_div);
+	let setup_encryption_div = settingsModal_div.querySelector("#setup-encryption");
 
-  settingsModal_div.addEventListener('show.bs.modal', async () => {
-    let tag_list = settingsModal_div.querySelector('#tag-list');
+	settingsModal_div.addEventListener('show.bs.modal', async () => {
+		let tag_list = settingsModal_div.querySelector('#tag-list');
 
-    [tags_cache, encrypted] = await Promise.all([
-      ipcRenderer.invoke('settings:get', 'tags'),
-      ipcRenderer.invoke('settings:get', 'encrypted')
-    ]);
+		[tags_cache, encrypted] = await Promise.all([
+			ipcRenderer.invoke('settings:get', 'tags'),
+			ipcRenderer.invoke('settings:get', 'encrypted')
+		]);
 
-    while (tag_list.firstChild) {
-      tag_list.firstChild.remove();
-    }
-    for (const tag in tags_cache) {
-      tag_list.appendChild(createTagEdit(tag, tags_cache[tag]));
-    }
+		while (tag_list.firstChild) {
+			tag_list.firstChild.remove();
+		}
+		for (const tag in tags_cache) {
+			tag_list.appendChild(createTagEdit(tag, tags_cache[tag]));
+		}
 
-    if (encrypted) {
-      setup_encryption_div.classList.add('encrypted');
-    }
-    else {
-      setup_encryption_div.classList.remove('encrypted');
-    }
-  })
+		if (encrypted) {
+			setup_encryption_div.classList.add('encrypted');
+		}
+		else {
+			setup_encryption_div.classList.remove('encrypted');
+		}
+	})
 
-  settingsModal_div.querySelector('#new-tag-btn').addEventListener('click', e => {
-    e.preventDefault();
-    let new_name = settingsModal_div.querySelector('#new-tag').value.trim();
-    if (new_name.length != 0 && document.getElementById('tag-edit-' + new_name) == null) {
-      settingsModal_div.querySelector('#tag-list').appendChild(createTagEdit(new_name));
-      settingsModal_div.querySelector('#new-tag').value = '';
-    }
-  })
+	settingsModal_div.querySelector('#new-tag-btn').addEventListener('click', e => {
+		e.preventDefault();
+		let new_name = settingsModal_div.querySelector('#new-tag').value.trim();
+		if (new_name.length != 0 && document.getElementById('tag-edit-' + new_name) == null) {
+			settingsModal_div.querySelector('#tag-list').appendChild(createTagEdit(new_name));
+			settingsModal_div.querySelector('#new-tag').value = '';
+		}
+	})
 
-  settingsModal_div.querySelector('.modal-footer button.btn.btn-primary').addEventListener('click', async e => {
-    e.preventDefault();
-    let rows = settingsModal_div.querySelectorAll('#tag-list .row');
-    let new_tags = Object.fromEntries([...rows].map(x => [x.querySelector('input[type=text]').value, x.querySelector('input[type=color]').value]));
+	settingsModal_div.querySelector('.modal-footer button.btn.btn-primary').addEventListener('click', async e => {
+		e.preventDefault();
+		let rows = settingsModal_div.querySelectorAll('#tag-list .row');
+		let new_tags = Object.fromEntries([...rows].map(x => [x.querySelector('input[type=text]').value, x.querySelector('input[type=color]').value]));
 
-    await ipcRenderer.invoke('settings:set', 'tags', new_tags);
-    settingsModal.hide();
-    updateAccounts(true);
-  })
+		await ipcRenderer.invoke('settings:set', 'tags', new_tags);
+		settingsModal.hide();
+		updateAccounts(true);
+	})
 
-  document.querySelector('#settings').addEventListener('click', async e => {
-    e.preventDefault();
-    settingsModal.show();
-  });
+	document.querySelector('#settings').addEventListener('click', async e => {
+		e.preventDefault();
+		settingsModal.show();
+	});
 
-  document.querySelector('#search').addEventListener('input', () => performSearch());
+	document.querySelector('#search').addEventListener('input', () => performSearch());
 
-  document.querySelectorAll('#main-table th.sortable').forEach(e => e.addEventListener('click', e => {
-    e.preventDefault();
-    handleSort(e.target);
-  }));
+	document.querySelectorAll('#main-table th.sortable').forEach(e => e.addEventListener('click', e => {
+		e.preventDefault();
+		handleSort(e.target);
+	}));
 
-  document.querySelector('#delete-all-btn').addEventListener('click', async e => {
-    await ipcRenderer.invoke('accounts:delete_all');
-    document.querySelectorAll('#main-table tbody tr').forEach(row => row.remove());
-    updateAccounts();
-  });
+	document.querySelector('#delete-all-btn').addEventListener('click', async e => {
+		await ipcRenderer.invoke('accounts:delete_all');
+		document.querySelectorAll('#main-table tbody tr').forEach(row => row.remove());
+		updateAccounts();
+	});
 
-  document.querySelector('#setup-encryption .btn-success').addEventListener('click', async e => {
-    encrypted = await ipcRenderer.invoke('encryption:setup');
-    if (encrypted) {
-      showToast('Data encrypted successfully', 'success');
-    }
-    else {
-      showToast('Encryption setup canceled', 'danger');
-    }
-    updateAccounts();
-  });
+	document.querySelector('#setup-encryption .btn-success').addEventListener('click', async e => {
+		encrypted = await ipcRenderer.invoke('encryption:setup');
+		if (encrypted) {
+			showToast('Data encrypted successfully', 'success');
+		}
+		else {
+			showToast('Encryption setup canceled', 'danger');
+		}
+		updateAccounts();
+	});
 
-  document.querySelector('#setup-encryption .btn-danger').addEventListener('click', async e => {
-    encrypted = await ipcRenderer.invoke('encryption:remove');
-    if (!encrypted) {
-      showToast('Data decrypted successfully', 'success');
-    }
-    else {
-      showToast('Decryption setup canceled', 'danger');
-    }
-    updateAccounts();
-  });
+	document.querySelector('#setup-encryption .btn-danger').addEventListener('click', async e => {
+		encrypted = await ipcRenderer.invoke('encryption:remove');
+		if (!encrypted) {
+			showToast('Data decrypted successfully', 'success');
+		}
+		else {
+			showToast('Decryption setup canceled', 'danger');
+		}
+		updateAccounts();
+	});
 
-  let changeLogModal_div = document.querySelector('#changeLogModal');
-  let changeLogModal = new bootstrap.Modal(changeLogModal_div);
+	let changeLogModal_div = document.querySelector('#changeLogModal');
+	let changeLogModal = new bootstrap.Modal(changeLogModal_div);
 
-  ipcRenderer.on('update:changelog', (_, markdown) => {
-    if (version) {
-      changeLogModal_div.querySelector('.modal-title').innerText = 'Changelog - ' + version;
-    }
-    changeLogModal_div.querySelector('.modal-body').innerHTML = md_converter.makeHtml(markdown);
-    ipcRenderer.invoke("app:isDev").then(d => {
-      isDev = d;
-      if (!isDev)
-        changeLogModal.show();
-    });
+	ipcRenderer.on('update:changelog', (_, markdown) => {
+		if (version) {
+			changeLogModal_div.querySelector('.modal-title').innerText = 'Changelog - ' + version;
+		}
+		changeLogModal_div.querySelector('.modal-body').innerHTML = md_converter.makeHtml(markdown);
+		ipcRenderer.invoke("app:isDev").then(d => {
+			isDev = d;
+			if (!isDev)
+				changeLogModal.show();
+		});
 
-  });
+	});
 
-  updateAccounts();
+	updateAccounts();
 
-  ipcRenderer.invoke('ready');
+	ipcRenderer.invoke('ready');
 
 })

@@ -1,33 +1,39 @@
 @font-face {
-    font-family: Torus;
-    font-weight: 100;
-    src: url(../font/Torus-Thin.otf);
+	font-family: Torus;
+	font-weight: 100;
+	src: url(../font/Torus-Thin.otf);
 }
+
 @font-face {
 	font-family: Torus;
 	font-weight: 300;
 	src: url(../font/Torus-Light.otf);
 }
+
 @font-face {
 	font-family: Torus;
 	font-weight: 400;
 	src: url(../font/Torus-Regular.otf);
 }
-@font-face {
-    font-family: Torus;
-    font-weight: 600;
-    src: url(../font/Torus-SemiBold.otf);
-}
-@font-face {
-    font-family: Torus;
-    font-weight: 700;
-    src: url(../font/Torus-SemiBold.otf);
-}
+
 @font-face {
 	font-family: Torus;
-    font-weight: 800;
-    src: url(../font/Torus-Bold.otf);
+	font-weight: 600;
+	src: url(../font/Torus-SemiBold.otf);
 }
+
+@font-face {
+	font-family: Torus;
+	font-weight: 700;
+	src: url(../font/Torus-SemiBold.otf);
+}
+
+@font-face {
+	font-family: Torus;
+	font-weight: 800;
+	src: url(../font/Torus-Bold.otf);
+}
+
 @font-face {
 	font-family: Torus;
 	font-weight: 900;
@@ -39,54 +45,54 @@
 }
 
 tt {
-    font-family: Consolas, monaco, monospace;
+	font-family: Consolas, monaco, monospace;
 }
 
 body {
-    background: #2E3440;
-    overflow: hidden;
+	background: #2E3440;
+	overflow: hidden;
 }
 
 main::-webkit-scrollbar {
-    width: 6px;
+	width: 6px;
 }
 
 main::-webkit-scrollbar-track {
-    background-color: #3B4252;
+	background-color: #3B4252;
 }
 
 main::-webkit-scrollbar-thumb {
-    background: #434C5E;
-    border-radius: 10px;
+	background: #434C5E;
+	border-radius: 10px;
 }
 
 main::-webkit-scrollbar-thumb:hover {
-    background: #4C566A;
+	background: #4C566A;
 }
 
 main {
-    position: fixed;
-    top: 3.5em;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    overflow-y: scroll;
+	position: fixed;
+	top: 3.5em;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	overflow-y: scroll;
 }
 
 .fa-fw {
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .prime-green {
-    filter: brightness(0) invert(84%) sepia(14%) saturate(643%) hue-rotate(49deg) brightness(85%) contrast(88%);
+	filter: brightness(0) invert(84%) sepia(14%) saturate(643%) hue-rotate(49deg) brightness(85%) contrast(88%);
 }
 
 .prime-red {
-    filter: brightness(0) invert(52%) sepia(19%) saturate(1272%) hue-rotate(305deg) brightness(84%) contrast(88%);
+	filter: brightness(0) invert(52%) sepia(19%) saturate(1272%) hue-rotate(305deg) brightness(84%) contrast(88%);
 }
 
 .rank-image {
-    height: 26px;
+	height: 26px;
 }
 
 #main-table tr td:last-child,
@@ -95,89 +101,112 @@ main {
 .login,
 .steam_name,
 .rank {
-    white-space: nowrap;
-    width: 1%;
+	white-space: nowrap;
+	width: 70px;
 }
 
 .rank {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 #main-table th {
-    border-bottom: 0;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+	border-bottom: 0;
+	position: sticky;
+	top: 0;
+	z-index: 1;
 }
 
 .prime img {
-    height: 26px;
+	height: 26px;
 }
 
 .form-control-color {
-    width: 40px;
+	width: 40px;
 }
 
 table tr td.preloader {
-    display: none;
+	display: none;
 }
 
 table tr.pending td.preloader {
-    display: table-cell;
+	display: table-cell;
 }
 
 table tr.pending td:not(.login):not(.preloader) {
-    display: none;
+	display: none;
 }
 
 .preloader .progress {
-    margin: 5.5px;
+	margin: 5.5px;
 }
 
 th {
-    box-shadow: inset 0 -1px var(--danger) !important;
-    user-select: none;
+	box-shadow: inset 0 -1px var(--danger) !important;
+	user-select: none;
 }
 
 .tooltip-inner {
-    max-width: 500px !important;
+	max-width: 500px !important;
 }
 
 th>.material-icons {
-    font-size: 1.3em;
+	font-size: 1.3em;
 }
 
 th {
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
 .sortable {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .sort-asc,
 .sort-desc {
-    display: none;
+	display: none;
 }
 
 th.sortable[data-sort-dir="ASC"] .sort-asc,
 th.sortable[data-sort-dir="DESC"] .sort-desc {
-    display: inline-block;
+	display: inline-block;
 }
 
 .setup-encryption .btn-success {
-    display: initial;
+	display: initial;
 }
 
 #setup-encryption.encrypted .btn-success {
-    display: none;
+	display: none;
 }
 
 #setup-encryption .btn-danger {
-    display: none;
+	display: none;
 }
 
 #setup-encryption.encrypted .btn-danger {
-    display: initial;
+	display: initial;
+}
+
+.cs2rating.sm {
+	width: 55px;
+	height: 26px;
+	padding: .5rem .5rem .5rem 1rem;
+	font-size: 16px;
+}
+
+.cs2rating {
+	width: 70px;
+	height: 24px;
+	display: flex;
+	font-size: 16px;
+	align-items: center;
+	justify-content: center;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	padding: .75rem .75rem .75rem 1.5rem;
+	text-shadow: 0 1px 0 black;
+	font-weight: bold;
+	margin: auto;
 }
