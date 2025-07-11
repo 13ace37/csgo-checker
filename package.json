@@ -22,8 +22,8 @@
 		"protobufjs": "^6.11.2",
 		"showdown": "^1.9.0",
 		"simple-json-db": "^1.2.3",
-		"steam-totp": "^2.1.1",
-		"steam-user": "^4.20.2"
+		"steam-totp": "^2.1.2",
+		"steam-user": "^5.2.3"
 	},
 	"devDependencies": {
 		"electron": "^16.0.0",

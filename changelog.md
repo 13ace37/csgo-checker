@@ -1,3 +1,8 @@
+# 2.0.0
+  - updated to steam-user v5 
+  - updated globaloffensive v3
+  - replaced mm rank with premier rank
+
 # 1.2.0
   - updated to electron 16
   - updated dependencies
