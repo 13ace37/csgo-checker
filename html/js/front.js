@@ -36,6 +36,32 @@ function getRankImage(rank, wins, type) {
 	return prefix + rank + '.svg';
 }
 
+function getNewRankColor(rank, wins) {
+	if (rank <= 0) rank = 0;
+	switch (rank) {
+		case 0: return "#B1C3D9";
+		case 1: return "#5E98D7";
+		case 2: return "#8846FF";
+		case 3: return "#D22CE6";
+		case 4: return "#EB4B4B";
+		case 5: return "#FED700";
+		default: return "#B1C3D9";
+	}
+}
+
+function getNewRankName(rank, wins) {
+	if (rank <= 0) rank = 0;
+	switch (rank) {
+		case 0: return "Common";
+		case 1: return "Uncommon";
+		case 2: return "Mythical";
+		case 3: return "Legendary";
+		case 4: return "Ancient";
+		case 5: return "Unusual";
+		default: return "Common";
+	}
+}
+
 /**
  * Get rank name for given rank id
  * @param {Number} rank ranking
@@ -415,25 +441,27 @@ function updateRow(row, login, account, force) {
 		row.querySelector('.prime img').className = account.steamid ? account.prime ? 'prime-green' : 'prime-red' : '';
 
 		let premier = (account.rankings || []).find(r => r.rank_type_id === 11);
+		let wingman = (account.rankings || []).find(r => r.rank_type_id === 7);
 
 		row.querySelector('.rank .cs2rating').style.backgroundUrl = getRankImage(premier?.eloIndex ?? 0, premier?.wins ?? 0, 'pr');
 		row.querySelector('.rank .cs2rating').querySelector('span').innerText = premier.rank_id || '---';
-		row.querySelector('.rank .wg').src = getRankImage(account.rank_wg ?? 0, account.wins_wg ?? 0, 'wg');
+		row.querySelector('.rank .cs2rating').querySelector('span').style.color = getNewRankColor(premier?.eloIndex ?? 0, premier?.wins ?? 0);
+		row.querySelector('.rank .wg').src = getRankImage(wingman.rank_id ?? 0, wingman.wins ?? 0, 'wg');
 		//row.querySelector('.rank .dz').src = getRankImage(account.rank_dz ?? 0, account.wins_dz, 'dz');
 
 		let mm_expire = account.last_game ? '<br>expires ' + formatExpireTime(new Date(account.last_game)) : '';
 		let wg_expire = account.last_game_wg ? '<br>expires ' + formatExpireTime(new Date(account.last_game_wg)) : '';
-		let dz_expire = account.last_game_dz ? '<br>expires ' + formatExpireTime(new Date(account.last_game_dz)) : '';
+		//let dz_expire = account.last_game_dz ? '<br>expires ' + formatExpireTime(new Date(account.last_game_dz)) : '';
 
-		//row.querySelector('.rank .mm').title = getRankName(account.rank ?? 0, account.wins ?? 0) +
-		//	'<br>' + (account.wins < 0 ? '?' : account.wins ?? '?') + ' wins' + mm_expire;
-		row.querySelector('.rank .wg').title = getRankName(account.rank_wg ?? 0, account.wins_wg ?? 0) +
-			'<br>' + (account.wins_wg ?? '?') + ' wins' + wg_expire;
+		row.querySelector('.rank .cs2rating').querySelector('span').title = getNewRankName(premier.rank_id, premier.wins) +
+			'<br>' + (premier.wins < 0 ? '?' : premier.wins ?? '?') + ' wins';
+		row.querySelector('.rank .wg').title = getRankName(wingman.rank_id ?? 0, wingman.wins ?? 0,) +
+			'<br>' + (wingman.wins ?? '?') + ' wins' + wg_expire;
 		//row.querySelector('.rank .dz').title = getRankName(account.rank_dz ?? 0, account.wins_dz ?? 0) +
 		//	'<br>' + (account.wins_dz ?? '?') + ' wins' + dz_expire;
 
 
-		//bootstrap.Tooltip.getInstance(row.querySelector('.rank .mm'))._fixTitle();
+		bootstrap.Tooltip.getInstance(row.querySelector('.rank .cs2rating').querySelector('span'))._fixTitle();
 		bootstrap.Tooltip.getInstance(row.querySelector('.rank .wg'))._fixTitle();
 		//bootstrap.Tooltip.getInstance(row.querySelector('.rank .dz'))._fixTitle();
 

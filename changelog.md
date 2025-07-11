@@ -1,3 +1,8 @@
+# 2.0.2
+  - wingman rank is back
+  - added actual rank name for premier rank
+  - added rank color for premier rank
+
 # 2.0.1
   - updated to steam-user v5 
   - updated globaloffensive v3

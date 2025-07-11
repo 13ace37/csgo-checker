@@ -577,27 +577,37 @@ function check_account(username, pass, sharedSecret) {
 			currently_checking = currently_checking.filter(x => x !== username);
 
 			data = Object.assign({}, data, playersProfile);
+
 			// find the Premier (matchmaking) ranking entry
 			let premier = (playersProfile.rankings || [])
 				.find(r => r.rank_type_id === 11);
 
-			if (!premier) return resolve(data);
+			if (premier) {
+				let eloRanges = [
+					[0, 4999],
+					[5000, 9999],
+					[10000, 14999],
+					[15000, 19999],
+					[20000, 24999],
+					[25000, 29999],
+					[30000, Infinity],
+				];
 
-			let eloRanges = [
-				[0, 4999],
-				[5000, 9999],
-				[10000, 14999],
-				[15000, 19999],
-				[20000, 24999],
-				[25000, 29999],
-				[30000, Infinity],
-			];
+				let eloIndex = eloRanges.findIndex(
+					([min, max]) => premier.rank_id >= min && premier.rank_id <= max
+				);
 
-			let eloIndex = eloRanges.findIndex(
-				([min, max]) => premier.rank_id >= min && premier.rank_id <= max
-			);
+				premier = Object.assign(premier, { eloIndex });
+			}
 
-			premier = Object.assign(premier, { eloIndex });
+			// find the Wingman (matchmaking) ranking entry
+			let wingman = (playersProfile.rankings || [])
+				.find(r => r.rank_type_id === 7);
+
+			if (wingman) {
+				wingman = Object.assign(wingman, {});
+			}
+
 			resolve(data);
 		})
 
