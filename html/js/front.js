@@ -438,6 +438,24 @@ function updateRow(row, login, account, force) {
 		// 	tags.appendChild(badge);
 		// }
 		row.querySelector('.level').innerText = account.player_level ?? '?';
+
+		if (account_cache[login].weeklyPicked) {
+			const now = new Date();
+			const chicagoTs = new Date(
+				new Date(account_cache[login].nextDrop)
+					.toLocaleString('en-US', { timeZone: 'America/Chicago' })
+			);
+
+			if (now > chicagoTs) {
+				account_cache[login].weeklyPicked = false;
+				account_cache[login].nextDrop = now;
+			}
+
+		}
+
+		row.querySelector('.weekly-drop-status').classList.replace(account_cache[login].weeklyPicked ? "text-success" : "text-danger", account_cache[login].weeklyPicked ? "text-danger" : "text-success");
+		row.querySelector('.weekly-next-drop').innerText = account_cache[login].weeklyPicked ? new Date(account_cache[login].nextDrop).toLocaleString("de-DE", { timeZone: "America/Chicago" }) : "";
+
 		row.querySelector('.prime img').className = account.steamid ? account.prime ? 'prime-green' : 'prime-red' : '';
 
 		let premier = (account.rankings || []).find(r => r.rank_type_id === 11);
@@ -483,21 +501,12 @@ function updateRow(row, login, account, force) {
 				  </a>
 	*/
 
-	if (account.locked) {
-		row.querySelector('.ban').innerHTML = `${formatPenalty("Locked", new Date(account.locked_until).getTime() / 1000)}`;
-		row.querySelector('.ban').classList.add("text-danger");
-		row.querySelector('.steam_name').classList.add("text-danger");
-		row.querySelector('.level').classList.add("text-danger");
-	} else {
-		row.querySelector('.ban').classList.remove("text-danger");
-		row.querySelector('.steam_name').classList.remove("text-danger");
-		row.querySelector('.level').classList.remove("text-danger");
-	}
+	row.querySelector('.ban').classList.remove("text-danger");
+	row.querySelector('.steam_name').classList.remove("text-danger");
+	row.querySelector('.level').classList.remove("text-danger");
 
 	if (account.penalty_seconds > 0) {
 		row.querySelector('.ban').innerText = account.error ?? formatPenalty(account.penalty_reason ?? '?', account.penalty_seconds ?? -1)
-		if (account.locked)
-			row.querySelector('.ban').innerHTML += ` ~ ${formatPenalty("Locked", new Date(account.locked_until).getTime() / 1000)}`;
 	}
 
 	return changed;
@@ -516,6 +525,15 @@ function performSearch() {
 		}
 	}
 }
+
+const nextTue8pmCT = () =>
+((d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })))
+	.setDate(
+		d.getDate() +
+		((2 + 7 - d.getDay() - (d.getDay() === 2 && d.getHours() >= 20 ? 7 : 0)) % 7)
+	),
+	d.setHours(20, 0, 0, 0),
+	d);
 
 var update_cycle = -1;
 /**
@@ -547,16 +565,19 @@ async function updateAccounts(force = false) {
 				showToast('Account name copied to clipboard', 'success');
 			});
 
-			tr.querySelector('.lock-acc').addEventListener('click', e => {
+			tr.querySelector('.weekly-collected').addEventListener('click', e => {
 				e.preventDefault();
-				let locked = !account_cache[login].locked;
+				let weeklyPicked = !account_cache[login].weeklyPicked;
 				let now = new Date();
-				let locked_until = locked ? new Date(now.setDate(now.getDate() + 1)) : now;
+				let nextDrop = weeklyPicked ? nextTue8pmCT() : now;
 				ipcRenderer.invoke('accounts:update', login, {
-					locked,
-					locked_until,
+					weeklyPicked,
+					nextDrop,
 				});
-				showToast(`Account is now ${locked ? `locked until ${new Date(locked_until).toLocaleString()}` : "unlocked"}`, locked ? "warning" : "success");
+				showToast(`
+					Account weekly drop marked as ${weeklyPicked ? "" : "not "}collected.
+					${weeklyPicked ? `Next drop on ${nextDrop.toLocaleString()}` : ""}
+					`, weeklyPicked ? "success" : "warning");
 			});
 
 			tr.querySelector('.open-pofile').addEventListener('click', e => {

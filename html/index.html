@@ -75,6 +75,11 @@
 						<i class="fa-solid fa-fw fa-angle-up sort-asc"></i>
 						<i class="fa-solid fa-fw fa-angle-down sort-desc"></i>
 					</th>
+					<th class="sortable" data-column-name="weekly" data-sort-dir="none">
+						weekly
+						<i class="fa-solid fa-fw fa-angle-up sort-asc"></i>
+						<i class="fa-solid fa-fw fa-angle-down sort-desc"></i>
+					</th>
 					<th class="sortable text-center" data-column-name="prime" data-sort-dir="none">
 						<img src="img/prime.svg" alt="prime" class="d-inline-block" style="height: 1rem;">
 						<i class="fa-solid fa-fw fa-angle-up sort-asc"></i>
@@ -124,6 +129,10 @@
 			<td class="steam_name"></td>
 			<td class="tags"></td>
 			<td class="level"></td>
+			<td class="weekly">
+				<span class="fa-fw far fa-parachute-box text-danger weekly-drop-status"></span>
+				<span class="weekly-next-drop"></span>
+			</td>
 			<td class="prime">
 				<img src="img/prime.svg" alt="prime">
 			</td>
@@ -175,9 +184,9 @@
 				<a href="#!" class="text-warning text-decoration-none edit" data-bs-toggle="tooltip" title="edit">
 					<i class="fa-solid fa-fw fa-pen"></i>
 				</a>
-				<a href="#!" class="text-warning text-decoration-none lock-acc" data-bs-toggle="tooltip"
-					title="lock account">
-					<i class="fa-solid fa-fw fa-user-lock"></i>
+				<a href="#!" class="text-primary text-decoration-none weekly-collected" data-bs-toggle="tooltip"
+					title="Weekly Drop Picked">
+					<i class="fa-solid fa-fw fa-parachute-box"></i>
 				</a>
 			</td>
 		</tr>

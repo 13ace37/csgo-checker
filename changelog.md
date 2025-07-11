@@ -1,3 +1,7 @@
+# 2.0.4
+  - added weekly drop switch - resets on tuesday 8pm CT
+  - removed account lock in favor of weekly drop switch
+
 # 2.0.3
   - hotfix: logout of steam once finished getting data for user
 
