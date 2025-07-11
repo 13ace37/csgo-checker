@@ -609,6 +609,9 @@ function check_account(username, pass, sharedSecret) {
 			}
 
 			resolve(data);
+
+			steamClient.logOff();
+
 		})
 
 

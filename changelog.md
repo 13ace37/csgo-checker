@@ -1,3 +1,6 @@
+# 2.0.3
+  - hotfix: logout of steam once finished getting data for user
+
 # 2.0.2
   - wingman rank is back
   - added actual rank name for premier rank
