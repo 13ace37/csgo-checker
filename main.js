@@ -393,6 +393,8 @@ async function process_check_account(username) {
 		return { error: 'unable to find account' };
 	}
 
+	account.error = "";
+
 	try {
 		const res = await check_account(username, account.password, account.sharedSecret);
 		console.log(res);
